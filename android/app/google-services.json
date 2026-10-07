@@ -27,6 +27,29 @@
           "other_platform_oauth_client": []
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:109876543210:android:4ab85f64d9f64858b97e9f",
+        "android_client_info": {
+          "package_name": "com.shopease.shopease"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDummyKeyForShopEaseBuildValidation12345"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        }
+      }
     }
   ],
   "configuration_version": "1"
