@@ -62,6 +62,13 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
+      - name: Ensure Android Platform Integration
+        run: |
+          cp android/app/google-services.json /tmp/google-services.json || true
+          flutter create . --platforms android --org com.shopease --project-name shopease
+          cp /tmp/google-services.json android/app/google-services.json || true
+          flutter pub get
+
       - name: Build Release APK
         run: flutter build apk --release --android-skip-build-dependency-validation
 
