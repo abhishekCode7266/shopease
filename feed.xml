@@ -8,6 +8,13 @@
     <lastBuildDate>Wed, 07 Oct 2026 06:00:00 GMT</lastBuildDate>
     <atom:link href="https://abhishekCode7266.github.io/shopease/feed.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>ShopEase v1.1.0 Released with Developer Mode Bypass &amp; Full Screen Inspection</title>
+      <link>https://github.com/abhishekCode7266/shopease/releases/tag/v1.1.0</link>
+      <guid isPermaLink="true">https://github.com/abhishekCode7266/shopease/releases/tag/v1.1.0</guid>
+      <pubDate>Wed, 07 Oct 2026 07:45:00 GMT</pubDate>
+      <description>Added exclusive circular Developer Settings &amp; Bypass button on Login and Splash screens with PIN 7266 authentication, unlocking instant full-access testing across all catalog, cart, checkout, and order history screens.</description>
+    </item>
+    <item>
       <title>ShopEase v1.0.0 Released for Android &amp; Web</title>
       <link>https://github.com/abhishekCode7266/shopease/releases/tag/v1.0.0</link>
       <guid isPermaLink="true">https://github.com/abhishekCode7266/shopease/releases/tag/v1.0.0</guid>
