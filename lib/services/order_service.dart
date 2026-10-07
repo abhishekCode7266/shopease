@@ -6,7 +6,7 @@ import '../utils/constants.dart';
 import 'cart_service.dart';
 
 class OrderService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  FirebaseFirestore get _firestore => FirebaseFirestore.instance;
   final CartService _cartService = CartService();
   final Uuid _uuid = const Uuid();
 

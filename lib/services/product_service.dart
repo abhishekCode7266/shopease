@@ -4,7 +4,7 @@ import '../utils/constants.dart';
 import '../utils/sample_data.dart';
 
 class ProductService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  FirebaseFirestore get _firestore => FirebaseFirestore.instance;
 
   CollectionReference get _productsRef =>
       _firestore.collection(AppConstants.collectionProducts);

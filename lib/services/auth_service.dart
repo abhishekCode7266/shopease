@@ -4,8 +4,8 @@ import '../models/user_model.dart';
 import '../utils/constants.dart';
 
 class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  FirebaseAuth get _auth => FirebaseAuth.instance;
+  FirebaseFirestore get _firestore => FirebaseFirestore.instance;
 
   // Stream of Auth changes
   Stream<User?> get authStateChanges => _auth.authStateChanges();

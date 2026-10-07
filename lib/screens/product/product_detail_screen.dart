@@ -260,7 +260,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     ? const Color(0xFF1E293B)
                                     : const Color(0xFFF1F5F9),
                                 borderRadius: BorderRadius.circular(12),
-                                border: BorderSide(
+                                border: Border.all(
                                   color: isDark
                                       ? const Color(0xFF334155)
                                       : const Color(0xFFE2E8F0),

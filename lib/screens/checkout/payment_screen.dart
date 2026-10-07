@@ -149,7 +149,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               decoration: BoxDecoration(
                 color: theme.colorScheme.primary.withOpacity(0.08),
                 borderRadius: BorderRadius.circular(16),
-                border: BorderSide(
+                border: Border.all(
                   color: theme.colorScheme.primary.withOpacity(0.2),
                 ),
               ),
@@ -204,7 +204,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       ? const Color(0xFF1E293B)
                       : const Color(0xFFF8FAFC),
                   borderRadius: BorderRadius.circular(14),
-                  border: BorderSide(
+                  border: Border.all(
                     color: isDark
                         ? const Color(0xFF334155)
                         : const Color(0xFFE2E8F0),
@@ -270,7 +270,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       ? const Color(0xFF1E293B)
                       : const Color(0xFFF8FAFC),
                   borderRadius: BorderRadius.circular(14),
-                  border: BorderSide(
+                  border: Border.all(
                     color: isDark
                         ? const Color(0xFF334155)
                         : const Color(0xFFE2E8F0),
@@ -324,7 +324,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         decoration: BoxDecoration(
           color: isDark ? const Color(0xFF1E293B) : Colors.white,
           borderRadius: BorderRadius.circular(16),
-          border: BorderSide(
+          border: Border.all(
             color: isSelected
                 ? theme.colorScheme.primary
                 : (isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0)),

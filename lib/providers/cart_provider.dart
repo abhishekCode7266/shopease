@@ -5,14 +5,16 @@ import '../models/product_model.dart';
 import '../services/cart_service.dart';
 
 class CartProvider extends ChangeNotifier {
-  final CartService _cartService = CartService();
+  final CartService? _customCartService;
+  CartService get _cartService => _customCartService ?? CartService();
 
   List<CartItemModel> _items = [];
   String? _userId;
   bool _isLoading = false;
   StreamSubscription<List<CartItemModel>>? _cartSubscription;
 
-  CartProvider({String? initialUserId}) {
+  CartProvider({CartService? cartService, String? initialUserId})
+      : _customCartService = cartService {
     if (initialUserId != null) {
       updateUser(initialUserId);
     }

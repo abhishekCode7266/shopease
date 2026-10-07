@@ -40,7 +40,7 @@ class OrderCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: isDark ? const Color(0xFF1E293B) : Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: BorderSide(
+        border: Border.all(
           color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
           width: 1,
         ),
@@ -82,7 +82,7 @@ class OrderCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: statusColor.withOpacity(0.12),
                       borderRadius: BorderRadius.circular(8),
-                      border: BorderSide(color: statusColor.withOpacity(0.3)),
+                      border: Border.all(color: statusColor.withOpacity(0.3)),
                     ),
                     child: Text(
                       order.status,

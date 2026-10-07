@@ -4,7 +4,7 @@ import '../models/product_model.dart';
 import '../utils/constants.dart';
 
 class CartService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  FirebaseFirestore get _firestore => FirebaseFirestore.instance;
 
   CollectionReference _cartRef(String uid) {
     return _firestore
