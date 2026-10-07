@@ -5,8 +5,32 @@ import '../../providers/cart_provider.dart';
 import '../../providers/product_provider.dart';
 import '../../widgets/empty_state_view.dart';
 
-class ProductCompareScreen extends StatelessWidget {
-  const ProductCompareScreen({super.key});
+import '../../models/product_model.dart';
+
+class ProductCompareScreen extends StatefulWidget {
+  final ProductModel? initialProduct;
+
+  const ProductCompareScreen({
+    super.key,
+    this.initialProduct,
+  });
+
+  @override
+  State<ProductCompareScreen> createState() => _ProductCompareScreenState();
+}
+
+class _ProductCompareScreenState extends State<ProductCompareScreen> {
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialProduct != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          context.read<ProductProvider>().addToCompare(widget.initialProduct!);
+        }
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +55,7 @@ class ProductCompareScreen extends StatelessWidget {
           ? EmptyStateView(
               icon: Icons.compare_arrows_rounded,
               title: 'No Products to Compare',
-              message:
+              subtitle:
                   'Add up to 3 products to compare features, prices, and specifications side by side.',
               buttonText: 'Back to Shop',
               onButtonPressed: () => Navigator.of(context).pop(),

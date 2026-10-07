@@ -28,6 +28,7 @@ class ProductProvider extends ChangeNotifier {
   }
 
   List<ProductModel> get allProducts => List.unmodifiable(_allProducts);
+  List<ProductModel> get products => _allProducts;
   String get selectedCategory => _selectedCategory;
   String get searchQuery => _searchQuery;
   String get sortBy => _sortBy;
@@ -228,6 +229,16 @@ class ProductProvider extends ChangeNotifier {
   void addSellerProduct(ProductModel product) {
     _allProducts.insert(0, product);
     notifyListeners();
+  }
+
+  void addProduct(ProductModel product) => addSellerProduct(product);
+
+  void updateProduct(ProductModel product) {
+    final index = _allProducts.indexWhere((p) => p.id == product.id);
+    if (index >= 0) {
+      _allProducts[index] = product;
+      notifyListeners();
+    }
   }
 
   void updateProductStock(String productId, int newStock) {

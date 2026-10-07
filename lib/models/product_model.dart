@@ -6,6 +6,7 @@ class ProductReview {
   final double rating;
   final String comment;
   final DateTime createdAt;
+  final bool verifiedPurchase;
 
   ProductReview({
     required this.id,
@@ -13,6 +14,7 @@ class ProductReview {
     required this.rating,
     required this.comment,
     required this.createdAt,
+    this.verifiedPurchase = true,
   });
 
   Map<String, dynamic> toMap() {
@@ -22,6 +24,7 @@ class ProductReview {
       'rating': rating,
       'comment': comment,
       'createdAt': Timestamp.fromDate(createdAt),
+      'verifiedPurchase': verifiedPurchase,
     };
   }
 
@@ -41,6 +44,7 @@ class ProductReview {
       rating: (map['rating'] as num?)?.toDouble() ?? 5.0,
       comment: map['comment'] as String? ?? 'Excellent product quality and prompt delivery!',
       createdAt: parsedDate,
+      verifiedPurchase: map['verifiedPurchase'] as bool? ?? true,
     );
   }
 }
@@ -90,6 +94,7 @@ class ProductModel {
                 .round();
 
   bool get isInStock => stock > 0;
+  bool get inStock => stock > 0;
 
   Map<String, dynamic> toMap() {
     return {

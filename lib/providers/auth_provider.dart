@@ -41,6 +41,8 @@ class AuthProvider extends ChangeNotifier {
     return _user?.wishlistProductIds.contains(productId) ?? false;
   }
 
+  bool isInWishlist(String productId) => isWishlisted(productId);
+
   void _initAuthListener() {
     try {
       _authSubscription = _authService.authStateChanges.listen((firebaseUser) async {
