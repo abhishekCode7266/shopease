@@ -5,6 +5,7 @@ import '../../utils/constants.dart';
 import '../../utils/validators.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_text_field.dart';
+import '../../widgets/developer_bypass_sheet.dart';
 import '../home/home_screen.dart';
 import 'forgot_password_screen.dart';
 import 'signup_screen.dart';
@@ -75,6 +76,46 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  // Developer Bypass Circular Button (एक छोटे से गोले से सेटिंग/बाईपास बटन)
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Tooltip(
+                      message: 'Developer Settings & Bypass (डेवलपर मोड)',
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () => DeveloperBypassSheet.show(context),
+                          borderRadius: BorderRadius.circular(22),
+                          child: Container(
+                            width: 44,
+                            height: 44,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: const LinearGradient(
+                                colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color(0xFF6366F1).withOpacity(0.35),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: const Icon(
+                              Icons.admin_panel_settings_rounded,
+                              color: Colors.white,
+                              size: 22,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
                   // Header Logo and Welcome
                   Center(
                     child: Container(
@@ -187,7 +228,25 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 28),
+                  const SizedBox(height: 10),
+
+                  // Developer Mode Bypass Button
+                  TextButton.icon(
+                    onPressed: () => DeveloperBypassSheet.show(context),
+                    icon: const Icon(
+                      Icons.admin_panel_settings_rounded,
+                      size: 18,
+                      color: Color(0xFF6366F1),
+                    ),
+                    label: const Text(
+                      'Developer Mode Bypass (डेवलपर मोड बाईपास)',
+                      style: TextStyle(
+                        color: Color(0xFF6366F1),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
 
                   // Sign Up Link
                   Row(

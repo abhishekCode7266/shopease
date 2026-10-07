@@ -90,27 +90,28 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/master')
         with:
-          tag_name: v1.0.0
-          name: ShopEase v1.0.0 (Production Release)
+          tag_name: v1.1.0
+          name: ShopEase v1.1.0 (Developer Bypass & Production Release)
           draft: false
           prerelease: false
           body: |
-            ## ShopEase v1.0.0 Production Release 🎉
+            ## ShopEase v1.1.0 Production Release 🎉
             
-            Welcome to the official production release of **ShopEase** Flutter E-Commerce mobile application!
+            Welcome to **ShopEase** Flutter E-Commerce mobile application with **Developer Mode Bypass**!
             
             ### 📱 Download & Install:
-            - **Download Android APK**: [`app-release.apk`](https://github.com/${{ github.repository }}/releases/download/v1.0.0/app-release.apk)
-            - **Google Play Store App Bundle**: [`app-release.aab`](https://github.com/${{ github.repository }}/releases/download/v1.0.0/app-release.aab)
+            - **Download Android APK**: [`app-release.apk`](https://github.com/${{ github.repository }}/releases/download/v1.1.0/app-release.apk)
+            - **Google Play Store App Bundle**: [`app-release.aab`](https://github.com/${{ github.repository }}/releases/download/v1.1.0/app-release.aab)
             
             ### ✨ Included Features:
-            - Firebase Email/Password Authentication & Session Persistence
-            - Real-time Firestore Product Catalog & Live Cart Synchronization
-            - Category Filtering & Instant Search
-            - Checkout with Delivery Address Form & Order Management
-            - Mock Payment Simulator (Cash on Delivery, Fake Card, Fake UPI)
-            - Material 3 Dark / Light Mode with SharedPreferences
-            - Push Notifications via Firebase Cloud Messaging (FCM)
+            - 🔐 **Developer Mode Bypass (डेवलपर मोड बाईपास)**: Circular settings button & direct PIN 7266 access to inspect all screens without credentials
+            - 🛡️ Firebase Email/Password Authentication & Session Persistence
+            - 📦 Real-time Firestore Product Catalog & Live Cart Synchronization
+            - 🔍 Category Filtering & Instant Search
+            - 🚚 Checkout with Delivery Address Form & Order Management
+            - 💳 Mock Payment Simulator (Cash on Delivery, Fake Card, Fake UPI)
+            - 🌓 Material 3 Dark / Light Mode with SharedPreferences
+            - 🔔 Push Notifications via Firebase Cloud Messaging (FCM)
           files: |
             build/app/outputs/flutter-apk/app-release.apk
             build/app/outputs/bundle/release/app-release.aab

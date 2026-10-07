@@ -76,6 +76,32 @@ class ProfileScreen extends StatelessWidget {
                                 ?.withOpacity(0.6),
                           ),
                         ),
+                        if (auth.isDeveloperMode) ...[
+                          const SizedBox(height: 6),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF6366F1).withOpacity(0.12),
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: const Color(0xFF6366F1)),
+                            ),
+                            child: const Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.verified_rounded, size: 13, color: Color(0xFF6366F1)),
+                                SizedBox(width: 4),
+                                Text(
+                                  'Lead Developer Access',
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF6366F1),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                         const SizedBox(height: 10),
                         InkWell(
                           onTap: () {

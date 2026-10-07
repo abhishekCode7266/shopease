@@ -9,6 +9,7 @@ class AuthProvider extends ChangeNotifier {
 
   UserModel? _user;
   bool _isLoading = false;
+  bool _isDeveloperMode = false;
   String? _errorMessage;
   StreamSubscription<User?>? _authSubscription;
 
@@ -18,11 +19,13 @@ class AuthProvider extends ChangeNotifier {
 
   UserModel? get user => _user;
   bool get isAuthenticated => _user != null;
+  bool get isDeveloperMode => _isDeveloperMode;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
 
   void _initAuthListener() {
     _authSubscription = _authService.authStateChanges.listen((firebaseUser) async {
+      if (_isDeveloperMode) return;
       if (firebaseUser != null) {
         _user = await _authService.getUserProfile(firebaseUser.uid) ??
             UserModel(
@@ -36,6 +39,31 @@ class AuthProvider extends ChangeNotifier {
       }
       notifyListeners();
     });
+  }
+
+  // Developer Bypass Mode (Exclusive access for Abhishek / Developer)
+  void activateDeveloperBypass({
+    String name = 'Abhishek (Lead Developer)',
+    String email = 'abhishekCode7266@shopease.app',
+    String uid = 'dev_abhishek_7266',
+  }) {
+    _isDeveloperMode = true;
+    _user = UserModel(
+      uid: uid,
+      name: name,
+      email: email,
+      createdAt: DateTime.now(),
+      phoneNumber: '+91 9876543210',
+      address: 'Developer Suite, Test Lab, New Delhi - 110001',
+    );
+    _errorMessage = null;
+    notifyListeners();
+  }
+
+  void exitDeveloperMode() {
+    _isDeveloperMode = false;
+    _user = null;
+    notifyListeners();
   }
 
   void _setLoading(bool value) {
@@ -101,8 +129,13 @@ class AuthProvider extends ChangeNotifier {
   Future<void> signOut() async {
     _setLoading(true);
     try {
-      await _authService.signOut();
-      _user = null;
+      if (_isDeveloperMode) {
+        _isDeveloperMode = false;
+        _user = null;
+      } else {
+        await _authService.signOut();
+        _user = null;
+      }
     } catch (e) {
       _setError(e.toString());
     } finally {
