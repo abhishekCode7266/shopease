@@ -136,28 +136,9 @@ jobs:
       - name: Build Flutter Web
         run: flutter build web --release --base-href "/${{ github.event.repository.name }}/"
 
-      - name: Generate RSS Feed for App Updates
+      - name: Copy RSS Feed for App Updates
         run: |
-          cat << 'EOF' > build/web/feed.xml
-          <?xml version="1.0" encoding="utf-8"?>
-          <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-            <channel>
-              <title>ShopEase App Release Updates</title>
-              <link>https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/</link>
-              <description>Official RSS updates feed for ShopEase Flutter E-Commerce application releases and changelogs.</description>
-              <language>en-us</language>
-              <lastBuildDate>Wed, 07 Oct 2026 06:00:00 GMT</lastBuildDate>
-              <atom:link href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/feed.xml" rel="self" type="application/rss+xml" />
-              <item>
-                <title>ShopEase v1.0.0 Released for Android &amp; Web</title>
-                <link>https://github.com/${{ github.repository }}/releases/tag/v1.0.0</link>
-                <guid isPermaLink="true">https://github.com/${{ github.repository }}/releases/tag/v1.0.0</guid>
-                <pubDate>Wed, 07 Oct 2026 06:00:00 GMT</pubDate>
-                <description>Production-ready Android APK and Google Play Store App Bundle (AAB) released with Firebase Auth, Cloud Firestore, Mock Payment, and Material 3 Dark Mode.</description>
-              </item>
-            </channel>
-          </rss>
-          EOF
+          cp feed.xml build/web/feed.xml
 
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v3
