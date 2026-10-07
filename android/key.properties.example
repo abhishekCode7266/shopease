@@ -1,0 +1,9 @@
+# Key properties for signing release APK / AAB for Google Play Store
+# Generate a keystore with:
+# keytool -genkey -v -keystore upload-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+#
+# Copy this file to android/key.properties and replace the values:
+storePassword=your_keystore_password
+keyPassword=your_key_password
+keyAlias=upload
+storeFile=upload-keystore.jks

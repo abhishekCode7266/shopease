@@ -1,0 +1,171 @@
+name: ShopEase CI/CD - Build APK, Play Store Bundle & Deploy Web
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  test_and_analyze:
+    name: Run Unit Tests & Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Run Flutter Analyze
+        run: flutter analyze || true
+
+      - name: Run Flutter Tests
+        run: flutter test
+
+  build_android:
+    name: Build Android Release APK & AAB (Google Play Store)
+    needs: test_and_analyze
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Build Release APK
+        run: flutter build apk --release
+
+      - name: Build Release App Bundle (AAB for Play Store)
+        run: flutter build appbundle --release
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: shopease-release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Upload AAB (Play Store) Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: shopease-playstore-aab
+          path: build/app/outputs/bundle/release/app-release.aab
+
+      - name: Create GitHub Release with APK & AAB
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/master')
+        with:
+          tag_name: v1.0.0
+          name: ShopEase v1.0.0 (Production Release)
+          draft: false
+          prerelease: false
+          body: |
+            ## ShopEase v1.0.0 Production Release 🎉
+            
+            Welcome to the official production release of **ShopEase** Flutter E-Commerce mobile application!
+            
+            ### 📱 Download & Install:
+            - **Download Android APK**: [`app-release.apk`](https://github.com/${{ github.repository }}/releases/download/v1.0.0/app-release.apk)
+            - **Google Play Store App Bundle**: [`app-release.aab`](https://github.com/${{ github.repository }}/releases/download/v1.0.0/app-release.aab)
+            
+            ### ✨ Included Features:
+            - Firebase Email/Password Authentication & Session Persistence
+            - Real-time Firestore Product Catalog & Live Cart Synchronization
+            - Category Filtering & Instant Search
+            - Checkout with Delivery Address Form & Order Management
+            - Mock Payment Simulator (Cash on Delivery, Fake Card, Fake UPI)
+            - Material 3 Dark / Light Mode with SharedPreferences
+            - Push Notifications via Firebase Cloud Messaging (FCM)
+          files: |
+            build/app/outputs/flutter-apk/app-release.apk
+            build/app/outputs/bundle/release/app-release.aab
+
+  deploy_web:
+    name: Build & Deploy Web Preview to GitHub Pages
+    needs: test_and_analyze
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Build Flutter Web
+        run: flutter build web --release --base-href "/${{ github.event.repository.name }}/"
+
+      - name: Generate RSS Feed for App Updates
+        run: |
+          cat << 'EOF' > build/web/feed.xml
+          <?xml version="1.0" encoding="utf-8"?>
+          <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+            <channel>
+              <title>ShopEase App Release Updates</title>
+              <link>https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/</link>
+              <description>Official RSS updates feed for ShopEase Flutter E-Commerce application releases and changelogs.</description>
+              <language>en-us</language>
+              <lastBuildDate>Wed, 07 Oct 2026 06:00:00 GMT</lastBuildDate>
+              <atom:link href="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/feed.xml" rel="self" type="application/rss+xml" />
+              <item>
+                <title>ShopEase v1.0.0 Released for Android &amp; Web</title>
+                <link>https://github.com/${{ github.repository }}/releases/tag/v1.0.0</link>
+                <guid isPermaLink="true">https://github.com/${{ github.repository }}/releases/tag/v1.0.0</guid>
+                <pubDate>Wed, 07 Oct 2026 06:00:00 GMT</pubDate>
+                <description>Production-ready Android APK and Google Play Store App Bundle (AAB) released with Firebase Auth, Cloud Firestore, Mock Payment, and Material 3 Dark Mode.</description>
+              </item>
+            </channel>
+          </rss>
+          EOF
+
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/web
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./build/web
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
