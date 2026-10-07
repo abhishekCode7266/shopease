@@ -21,6 +21,8 @@ class AuthProvider extends ChangeNotifier {
   }
 
   UserModel? get user => _user;
+  UserModel? get currentUser => _user;
+  String? get currentUserId => _user?.uid;
   bool get isAuthenticated => _user != null;
   bool get isDeveloperMode => _isDeveloperMode;
   bool get isLoading => _isLoading;
@@ -154,6 +156,24 @@ class AuthProvider extends ChangeNotifier {
       ..removeWhere((a) => a.id == addressId);
     _user = _user!.copyWith(savedAddresses: addresses);
     notifyListeners();
+  }
+
+  void deleteAddress(String addressId) => removeAddress(addressId);
+
+  void updateAddress(ShippingAddress address) {
+    if (_user == null) return;
+    final addresses = List<ShippingAddress>.from(_user!.savedAddresses);
+    final idx = addresses.indexWhere((a) => a.id == address.id);
+    if (idx >= 0) {
+      if (address.isDefault) {
+        for (var i = 0; i < addresses.length; i++) {
+          addresses[i] = addresses[i].copyWith(isDefault: false);
+        }
+      }
+      addresses[idx] = address;
+      _user = _user!.copyWith(savedAddresses: addresses);
+      notifyListeners();
+    }
   }
 
   void setDefaultAddress(String addressId) {

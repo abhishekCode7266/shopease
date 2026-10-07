@@ -36,6 +36,7 @@ class UserModel {
     this.sellerRating = 4.8,
   });
 
+  String get id => uid;
   bool get isCustomer => role == 'customer';
   bool get isSeller => role == 'seller';
   bool get isAdmin => role == 'admin';

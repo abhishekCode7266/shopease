@@ -47,7 +47,10 @@ class AppConstants {
 
   // Order Statuses
   static const String orderStatusPlaced = 'Placed';
+  static const String orderStatusConfirmed = 'Confirmed';
+  static const String orderStatusPacked = 'Packed';
   static const String orderStatusShipped = 'Shipped';
+  static const String orderStatusOutForDelivery = 'Out for Delivery';
   static const String orderStatusDelivered = 'Delivered';
   static const String orderStatusCancelled = 'Cancelled';
 

@@ -48,7 +48,7 @@ class WishlistScreen extends StatelessWidget {
           ? EmptyStateView(
               icon: Icons.favorite_border_rounded,
               title: 'Your Wishlist is Empty',
-              message:
+              subtitle:
                   'Explore the catalog and tap the heart icon to save products you love for later.',
               buttonText: 'Explore Catalog',
               onButtonPressed: () => Navigator.of(context).pop(),

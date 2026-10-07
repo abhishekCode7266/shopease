@@ -12,10 +12,11 @@ class EmptyStateView extends StatelessWidget {
     super.key,
     required this.icon,
     required this.title,
-    required this.subtitle,
+    String? subtitle,
+    String? message,
     this.buttonText,
     this.onButtonPressed,
-  });
+  }) : subtitle = subtitle ?? message ?? '';
 
   @override
   Widget build(BuildContext context) {

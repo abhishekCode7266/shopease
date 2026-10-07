@@ -80,7 +80,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
               Navigator.pop(ctx);
               final success = await context
                   .read<OrderProvider>()
-                  .cancelOrder(_currentOrder.id, reason: reason);
+                  .cancelOrder(_currentOrder.id, reason);
               if (mounted) {
                 if (success) {
                   _syncOrder();

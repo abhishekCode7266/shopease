@@ -203,20 +203,22 @@ class OrderProvider extends ChangeNotifier {
   }
 
   // Cancel Order
-  Future<void> cancelOrder(String orderId, String reason) async {
+  Future<bool> cancelOrder(String orderId, [String? reason]) async {
     final index = _orders.indexWhere((o) => o.id == orderId);
     if (index >= 0) {
       final updated = _orders[index].copyWith(
         status: 'Cancelled',
-        cancelReason: reason,
+        cancelReason: reason ?? 'Cancelled by user',
       );
       _orders[index] = updated;
       notifyListeners();
+      return true;
     }
+    return false;
   }
 
   // Request Return / Replacement
-  Future<void> requestReturn(String orderId, String reason) async {
+  Future<bool> requestReturn(String orderId, String reason) async {
     final index = _orders.indexWhere((o) => o.id == orderId);
     if (index >= 0) {
       final current = _orders[index];
@@ -227,7 +229,9 @@ class OrderProvider extends ChangeNotifier {
       );
       _orders[index] = updated;
       notifyListeners();
+      return true;
     }
+    return false;
   }
 
   // Update Status by Seller / Admin
