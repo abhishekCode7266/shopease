@@ -4,8 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
+import 'providers/admin_provider.dart';
 import 'providers/auth_provider.dart';
 import 'providers/cart_provider.dart';
+import 'providers/notification_provider.dart';
 import 'providers/order_provider.dart';
 import 'providers/product_provider.dart';
 import 'providers/theme_provider.dart';
@@ -77,6 +79,11 @@ class ShopEaseApp extends StatelessWidget {
             provider.updateUser(auth.user?.uid);
             return provider;
           },
+        ChangeNotifierProvider<NotificationProvider>(
+          create: (_) => NotificationProvider(),
+        ),
+        ChangeNotifierProvider<AdminProvider>(
+          create: (_) => AdminProvider(),
         ),
       ],
       child: Consumer<ThemeProvider>(

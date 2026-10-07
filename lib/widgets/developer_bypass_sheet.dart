@@ -24,6 +24,7 @@ class DeveloperBypassSheet extends StatefulWidget {
 
 class _DeveloperBypassSheetState extends State<DeveloperBypassSheet> {
   final _pinController = TextEditingController(text: '7266');
+  String _selectedRole = 'admin'; // 'admin', 'seller', 'customer'
   bool _preloadDemoCart = true;
   bool _obscurePin = true;
   String? _error;
@@ -47,9 +48,14 @@ class _DeveloperBypassSheetState extends State<DeveloperBypassSheet> {
     final cart = context.read<CartProvider>();
     final productProvider = context.read<ProductProvider>();
 
-    // 1. Activate Developer Bypass
+    // 1. Activate Developer Bypass with chosen role
     auth.activateDeveloperBypass(
-      name: 'Abhishek (Lead Developer)',
+      role: _selectedRole,
+      name: _selectedRole == 'admin'
+          ? 'Abhishek (Super Admin)'
+          : (_selectedRole == 'seller'
+              ? 'Abhishek (Merchant Apex Audio)'
+              : 'Abhishek (Lead Developer)'),
       email: 'abhishekCode7266@shopease.app',
       uid: 'dev_abhishek_7266',
     );
@@ -80,14 +86,14 @@ class _DeveloperBypassSheetState extends State<DeveloperBypassSheet> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: const Row(
+        content: Row(
           children: [
-            Icon(Icons.verified_rounded, color: Colors.white, size: 20),
-            SizedBox(width: 10),
+            const Icon(Icons.verified_rounded, color: Colors.white, size: 20),
+            const SizedBox(width: 10),
             Expanded(
               child: Text(
-                'Developer Bypass Active! All screens & permissions unlocked.',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                'Developer Bypass Active as ${_selectedRole.toUpperCase()}! All features unlocked.',
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
           ],
@@ -123,194 +129,256 @@ class _DeveloperBypassSheetState extends State<DeveloperBypassSheet> {
           ),
         ],
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Drag indicator bar
-          Center(
-            child: Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: theme.dividerColor,
-                borderRadius: BorderRadius.circular(2),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Drag indicator bar
+            Center(
+              child: Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: theme.dividerColor,
+                  borderRadius: BorderRadius.circular(2),
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 20),
+            const SizedBox(height: 20),
 
-          // Header
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
+            // Header
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                  borderRadius: BorderRadius.circular(16),
+                  child: const Icon(
+                    Icons.admin_panel_settings_rounded,
+                    color: Colors.white,
+                    size: 28,
+                  ),
                 ),
-                child: const Icon(
-                  Icons.admin_panel_settings_rounded,
-                  color: Colors.white,
-                  size: 28,
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Developer Access Portal',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        'Exclusive Multi-Role Bypass (PIN 7266)',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color:
+                              theme.textTheme.bodyMedium?.color?.withOpacity(0.65),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+
+            // Role Selector Chips
+            const Text(
+              'Select Entry Role:',
+              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                _buildRoleChip('admin', 'Super Admin', Icons.admin_panel_settings),
+                const SizedBox(width: 8),
+                _buildRoleChip('seller', 'Seller Hub', Icons.storefront),
+                const SizedBox(width: 8),
+                _buildRoleChip('customer', 'Customer', Icons.shopping_bag_outlined),
+              ],
+            ),
+            const SizedBox(height: 16),
+
+            // Info banner
+            Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: const Color(0xFF6366F1).withOpacity(0.08),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: const Color(0xFF6366F1).withOpacity(0.25),
                 ),
               ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Developer Access Portal',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildFeatureRow(
+                    icon: Icons.check_circle_outline_rounded,
+                    text: 'Direct login without Firebase credentials',
+                    color: const Color(0xFF10B981),
+                  ),
+                  const SizedBox(height: 8),
+                  _buildFeatureRow(
+                    icon: Icons.shield_rounded,
+                    text: 'Unlock Admin Analytics, Seller Hub & AI Concierge',
+                    color: const Color(0xFF6366F1),
+                  ),
+                  const SizedBox(height: 8),
+                  _buildFeatureRow(
+                    icon: Icons.developer_board_rounded,
+                    text: 'Developer ID: abhishekCode7266 (PIN: 7266)',
+                    color: const Color(0xFFF59E0B),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 18),
+
+            // Developer PIN input
+            TextField(
+              controller: _pinController,
+              obscureText: _obscurePin,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: 'Developer PIN Code',
+                hintText: 'Enter 7266',
+                prefixIcon: const Icon(Icons.pin_rounded, size: 20),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscurePin
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
+                    size: 20,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _obscurePin = !_obscurePin;
+                    });
+                  },
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                errorText: _error,
+              ),
+            ),
+            const SizedBox(height: 12),
+
+            // Preload demo cart checkbox
+            SwitchListTile(
+              value: _preloadDemoCart,
+              onChanged: (val) {
+                setState(() {
+                  _preloadDemoCart = val;
+                });
+              },
+              title: const Text(
+                'Pre-fill Cart with Sample Items',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              ),
+              subtitle: Text(
+                'Allows immediate checkout and payment testing',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: theme.textTheme.bodyMedium?.color?.withOpacity(0.6),
+                ),
+              ),
+              dense: true,
+              contentPadding: EdgeInsets.zero,
+              activeColor: const Color(0xFF6366F1),
+            ),
+            const SizedBox(height: 18),
+
+            // Activate Button
+            ElevatedButton(
+              onPressed: _handleActivate,
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                backgroundColor: const Color(0xFF6366F1),
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                elevation: 2,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.bolt_rounded, size: 20),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Bypass & Enter as ${_selectedRole.toUpperCase()} (बाईपास करें)',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
                     ),
-                    const SizedBox(height: 2),
-                    Text(
-                      'Exclusive Bypass for Abhishek (Developer)',
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: theme.textTheme.bodyMedium?.color?.withOpacity(0.65),
-                      ),
-                    ),
-                  ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 8),
+
+            // Cancel
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancel / Normal Sign In'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRoleChip(String roleKey, String label, IconData icon) {
+    final isSelected = _selectedRole == roleKey;
+    return Expanded(
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            _selectedRole = roleKey;
+          });
+        },
+        borderRadius: BorderRadius.circular(10),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? const Color(0xFF4F46E5)
+                : const Color(0xFF4F46E5).withOpacity(0.08),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: isSelected ? const Color(0xFF4F46E5) : Colors.transparent,
+            ),
+          ),
+          child: Column(
+            children: [
+              Icon(icon,
+                  size: 20,
+                  color: isSelected ? Colors.white : const Color(0xFF4F46E5)),
+              const SizedBox(height: 4),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                  color: isSelected ? Colors.white : const Color(0xFF4F46E5),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 20),
-
-          // Info banner
-          Container(
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: const Color(0xFF6366F1).withOpacity(0.08),
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(
-                color: const Color(0xFF6366F1).withOpacity(0.25),
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildFeatureRow(
-                  icon: Icons.check_circle_outline_rounded,
-                  text: 'Bypass Firebase Email/Password Sign-In',
-                  color: const Color(0xFF10B981),
-                ),
-                const SizedBox(height: 8),
-                _buildFeatureRow(
-                  icon: Icons.shield_rounded,
-                  text: 'Full Access to Products, Cart, Checkout & Orders',
-                  color: const Color(0xFF6366F1),
-                ),
-                const SizedBox(height: 8),
-                _buildFeatureRow(
-                  icon: Icons.developer_board_rounded,
-                  text: 'Lead Developer ID: abhishekCode7266',
-                  color: const Color(0xFFF59E0B),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 18),
-
-          // Developer PIN input
-          TextField(
-            controller: _pinController,
-            obscureText: _obscurePin,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              labelText: 'Developer PIN Code',
-              hintText: 'Enter 7266',
-              prefixIcon: const Icon(Icons.pin_rounded, size: 20),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _obscurePin
-                      ? Icons.visibility_off_outlined
-                      : Icons.visibility_outlined,
-                  size: 20,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _obscurePin = !_obscurePin;
-                  });
-                },
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(14),
-              ),
-              errorText: _error,
-            ),
-          ),
-          const SizedBox(height: 12),
-
-          // Preload demo cart checkbox
-          SwitchListTile(
-            value: _preloadDemoCart,
-            onChanged: (val) {
-              setState(() {
-                _preloadDemoCart = val;
-              });
-            },
-            title: const Text(
-              'Pre-fill Cart with Sample Items',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-            ),
-            subtitle: Text(
-              'Allows immediate checkout and payment testing',
-              style: TextStyle(
-                fontSize: 12,
-                color: theme.textTheme.bodyMedium?.color?.withOpacity(0.6),
-              ),
-            ),
-            dense: true,
-            contentPadding: EdgeInsets.zero,
-            activeColor: const Color(0xFF6366F1),
-          ),
-          const SizedBox(height: 18),
-
-          // Activate Button
-          ElevatedButton(
-            onPressed: _handleActivate,
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              backgroundColor: const Color(0xFF6366F1),
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14),
-              ),
-              elevation: 2,
-            ),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.bolt_rounded, size: 20),
-                SizedBox(width: 8),
-                Text(
-                  'Bypass & Enter App Now (बाईपास करें)',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 8),
-
-          // Cancel
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancel / Normal Sign In'),
-          ),
-        ],
+        ),
       ),
     );
   }

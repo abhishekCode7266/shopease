@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import '../models/order_model.dart';
 import '../models/user_model.dart';
 import '../services/auth_service.dart';
+import '../utils/sample_data.dart';
 
 class AuthProvider extends ChangeNotifier {
   final AuthService _authService;
@@ -24,6 +26,19 @@ class AuthProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
 
+  String get currentRole => _user?.role ?? 'customer';
+  bool get isCustomer => _user?.isCustomer ?? true;
+  bool get isSeller => _user?.isSeller ?? false;
+  bool get isAdmin => _user?.isAdmin ?? false;
+
+  List<String> get wishlistProductIds => _user?.wishlistProductIds ?? [];
+  List<ShippingAddress> get savedAddresses => _user?.savedAddresses ?? [];
+  ShippingAddress? get defaultAddress => _user?.defaultAddress;
+
+  bool isWishlisted(String productId) {
+    return _user?.wishlistProductIds.contains(productId) ?? false;
+  }
+
   void _initAuthListener() {
     try {
       _authSubscription = _authService.authStateChanges.listen((firebaseUser) async {
@@ -35,6 +50,8 @@ class AuthProvider extends ChangeNotifier {
                 name: firebaseUser.displayName ?? 'Shopper',
                 email: firebaseUser.email ?? '',
                 createdAt: DateTime.now(),
+                savedAddresses: SampleData.sampleAddresses,
+                wishlistProductIds: ['prod_elec_01', 'prod_fash_03'],
               );
         } else {
           _user = null;
@@ -44,28 +61,107 @@ class AuthProvider extends ChangeNotifier {
     } catch (_) {}
   }
 
-  // Developer Bypass Mode (Exclusive access for Abhishek / Developer)
+  // Developer Bypass Mode with Role Selection (Customer, Seller, Super Admin)
   void activateDeveloperBypass({
-    String name = 'Abhishek (Lead Developer)',
-    String email = 'abhishekCode7266@shopease.app',
-    String uid = 'dev_abhishek_7266',
+    String role = 'admin', // 'admin', 'seller', 'customer'
+    String? name,
+    String? email,
+    String? uid,
   }) {
     _isDeveloperMode = true;
+
+    String defaultName;
+    String defaultEmail;
+    String defaultUid;
+    String? storeName;
+
+    if (role == 'admin') {
+      defaultName = name ?? 'Abhishek (Super Admin)';
+      defaultEmail = email ?? 'admin@shopease.com';
+      defaultUid = uid ?? 'dev_admin_abhishek';
+    } else if (role == 'seller') {
+      defaultName = name ?? 'Abhishek (Apex Audio Seller)';
+      defaultEmail = email ?? 'seller.apex@shopease.com';
+      defaultUid = uid ?? 'seller_apex_audio';
+      storeName = 'Apex Audio Labs Official';
+    } else {
+      defaultName = name ?? 'Abhishek (Premium Shopper)';
+      defaultEmail = email ?? 'abhishek.shopper@shopease.com';
+      defaultUid = uid ?? 'dev_customer_abhishek';
+    }
+
     _user = UserModel(
-      uid: uid,
-      name: name,
-      email: email,
-      createdAt: DateTime.now(),
+      uid: defaultUid,
+      name: defaultName,
+      email: defaultEmail,
+      createdAt: DateTime.now().subtract(const Duration(days: 90)),
       phoneNumber: '+91 9876543210',
-      address: 'Developer Suite, Test Lab, New Delhi - 110001',
+      address: 'Plot 42, DLF Cyber City, Gurugram, Haryana - 122002',
+      role: role,
+      savedAddresses: SampleData.sampleAddresses,
+      wishlistProductIds: ['prod_elec_01', 'prod_fash_03'],
+      isVerifiedSeller: role == 'seller' || role == 'admin',
+      sellerStoreName: storeName,
+      sellerEarnings: 84250.00,
+      sellerRating: 4.9,
     );
     _errorMessage = null;
+    notifyListeners();
+  }
+
+  void switchRole(String newRole) {
+    if (_user == null) return;
+    _user = _user!.copyWith(role: newRole);
     notifyListeners();
   }
 
   void exitDeveloperMode() {
     _isDeveloperMode = false;
     _user = null;
+    notifyListeners();
+  }
+
+  // Wishlist toggle
+  void toggleWishlist(String productId) {
+    if (_user == null) return;
+    final currentList = List<String>.from(_user!.wishlistProductIds);
+    if (currentList.contains(productId)) {
+      currentList.remove(productId);
+    } else {
+      currentList.add(productId);
+    }
+    _user = _user!.copyWith(wishlistProductIds: currentList);
+    notifyListeners();
+  }
+
+  // Address Management
+  void addAddress(ShippingAddress address) {
+    if (_user == null) return;
+    final addresses = List<ShippingAddress>.from(_user!.savedAddresses);
+    if (address.isDefault) {
+      for (var i = 0; i < addresses.length; i++) {
+        addresses[i] = addresses[i].copyWith(isDefault: false);
+      }
+    }
+    addresses.add(address);
+    _user = _user!.copyWith(savedAddresses: addresses);
+    notifyListeners();
+  }
+
+  void removeAddress(String addressId) {
+    if (_user == null) return;
+    final addresses = List<ShippingAddress>.from(_user!.savedAddresses)
+      ..removeWhere((a) => a.id == addressId);
+    _user = _user!.copyWith(savedAddresses: addresses);
+    notifyListeners();
+  }
+
+  void setDefaultAddress(String addressId) {
+    if (_user == null) return;
+    final addresses = _user!.savedAddresses.map((a) {
+      return a.copyWith(isDefault: a.id == addressId);
+    }).toList();
+    _user = _user!.copyWith(savedAddresses: addresses);
     notifyListeners();
   }
 
@@ -89,14 +185,19 @@ class AuthProvider extends ChangeNotifier {
     required String name,
     required String email,
     required String password,
+    String role = 'customer',
   }) async {
     _setLoading(true);
     _setError(null);
     try {
-      _user = await _authService.signUp(
+      final baseUser = await _authService.signUp(
         name: name,
         email: email,
         password: password,
+      );
+      _user = baseUser.copyWith(
+        role: role,
+        savedAddresses: SampleData.sampleAddresses,
       );
       _setLoading(false);
       return true;
@@ -115,9 +216,14 @@ class AuthProvider extends ChangeNotifier {
     _setLoading(true);
     _setError(null);
     try {
-      _user = await _authService.signIn(
+      final baseUser = await _authService.signIn(
         email: email,
         password: password,
+      );
+      _user = baseUser.copyWith(
+        savedAddresses: baseUser.savedAddresses.isEmpty
+            ? SampleData.sampleAddresses
+            : baseUser.savedAddresses,
       );
       _setLoading(false);
       return true;

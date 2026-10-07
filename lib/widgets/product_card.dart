@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/product_model.dart';
+import '../providers/auth_provider.dart';
 import '../providers/cart_provider.dart';
 import '../utils/constants.dart';
 
@@ -19,6 +20,8 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final auth = context.watch<AuthProvider>();
+    final isWishlisted = auth.isInWishlist(product.id);
 
     return Card(
       clipBehavior: Clip.antiAlias,
@@ -36,7 +39,7 @@ class ProductCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image with Category Tag
+            // Image with Category Tag and Wishlist Icon
             Expanded(
               child: Stack(
                 children: [
@@ -94,6 +97,59 @@ class ProductCard extends StatelessWidget {
                       ),
                     ),
                   ),
+                  // Wishlist Icon
+                  Positioned(
+                    top: 6,
+                    right: 6,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: isDark
+                            ? const Color(0xFF0F172A).withOpacity(0.7)
+                            : Colors.white.withOpacity(0.85),
+                        shape: BoxShape.circle,
+                      ),
+                      child: IconButton(
+                        iconSize: 18,
+                        visualDensity: VisualDensity.compact,
+                        padding: const EdgeInsets.all(4),
+                        constraints: const BoxConstraints(),
+                        icon: Icon(
+                          isWishlisted
+                              ? Icons.favorite
+                              : Icons.favorite_border_rounded,
+                          color: isWishlisted
+                              ? const Color(0xFFEF4444)
+                              : Colors.grey.shade600,
+                        ),
+                        onPressed: () {
+                          auth.toggleWishlist(product.id);
+                        },
+                      ),
+                    ),
+                  ),
+                  // Discount Badge
+                  if (product.originalPrice != null &&
+                      product.originalPrice! > product.price)
+                    Positioned(
+                      bottom: 8,
+                      left: 8,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 6, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF10B981),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          '${product.discountPercent}% OFF',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 9,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),
@@ -137,7 +193,8 @@ class ProductCard extends StatelessWidget {
                         '(${product.reviewCount})',
                         style: TextStyle(
                           fontSize: 11,
-                          color: theme.textTheme.bodyMedium?.color?.withOpacity(0.5),
+                          color: theme.textTheme.bodyMedium?.color
+                              ?.withOpacity(0.5),
                         ),
                       ),
                     ],
@@ -148,13 +205,28 @@ class ProductCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        '${AppConstants.currencySymbol}${product.price.toStringAsFixed(2)}',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: theme.colorScheme.primary,
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${AppConstants.currencySymbol}${product.price.toStringAsFixed(2)}',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: theme.colorScheme.primary,
+                            ),
+                          ),
+                          if (product.originalPrice != null &&
+                              product.originalPrice! > product.price)
+                            Text(
+                              '${AppConstants.currencySymbol}${product.originalPrice!.toStringAsFixed(2)}',
+                              style: const TextStyle(
+                                fontSize: 11,
+                                color: Colors.grey,
+                                decoration: TextDecoration.lineThrough,
+                              ),
+                            ),
+                        ],
                       ),
                       Material(
                         color: theme.colorScheme.primary,

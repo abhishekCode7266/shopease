@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../models/order_model.dart';
 import '../../utils/constants.dart';
+import 'invoice_screen.dart';
+import 'order_tracking_screen.dart';
 
 class OrderDetailScreen extends StatelessWidget {
   final OrderModel order;
@@ -22,6 +24,32 @@ class OrderDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Order #${order.id}'),
+        actions: [
+          IconButton(
+            tooltip: 'Live Tracking',
+            icon: const Icon(Icons.navigation_outlined),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => OrderTrackingScreen(order: order),
+                ),
+              );
+            },
+          ),
+          IconButton(
+            tooltip: 'Tax Invoice',
+            icon: const Icon(Icons.receipt_long_outlined),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => InvoiceScreen(order: order),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -304,6 +332,52 @@ class OrderDetailScreen extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    icon: const Icon(Icons.navigation_outlined),
+                    label: const Text('Live Tracking'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => OrderTrackingScreen(order: order),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: OutlinedButton.icon(
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    icon: const Icon(Icons.receipt_long),
+                    label: const Text('Tax Invoice'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => InvoiceScreen(order: order),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 30),
           ],

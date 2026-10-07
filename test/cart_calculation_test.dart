@@ -17,7 +17,7 @@ void main() {
       expect(item.totalPrice, closeTo(299.97, 0.001));
     });
 
-    test('CartProvider calculates subtotal, tax, shipping, and grand total', () async {
+    test('CartProvider calculates subtotal, 18% GST, shipping, and grand total', () async {
       final cart = CartProvider();
 
       expect(cart.subtotal, 0.0);
@@ -40,16 +40,51 @@ void main() {
       // Add item (under $50 threshold)
       await cart.addToCart(p1, quantity: 2); // 2 * $20 = $40
       expect(cart.subtotal, 40.00);
-      expect(cart.tax, closeTo(3.20, 0.001)); // 8% of 40 = 3.20
+      expect(cart.cgst, closeTo(3.60, 0.001)); // 9% CGST of 40 = 3.60
+      expect(cart.sgst, closeTo(3.60, 0.001)); // 9% SGST of 40 = 3.60
+      expect(cart.tax, closeTo(7.20, 0.001)); // 18% GST of 40 = 7.20
       expect(cart.shippingFee, 5.00); // Less than 50 -> shipping fee 5.00
-      expect(cart.grandTotal, closeTo(48.20, 0.001));
+      expect(cart.grandTotal, closeTo(52.20, 0.001)); // 40 + 7.20 + 5.00
 
       // Increase quantity to reach free shipping threshold (> $50)
       await cart.addToCart(p1, quantity: 1); // 3 * $20 = $60
       expect(cart.subtotal, 60.00);
-      expect(cart.tax, closeTo(4.80, 0.001)); // 8% of 60 = 4.80
+      expect(cart.tax, closeTo(10.80, 0.001)); // 18% of 60 = 10.80
       expect(cart.shippingFee, 0.00); // Free shipping!
-      expect(cart.grandTotal, closeTo(64.80, 0.001));
+      expect(cart.grandTotal, closeTo(70.80, 0.001)); // 60 + 10.80
+    });
+
+    test('Coupon code application and discount verification', () async {
+      final cart = CartProvider();
+
+      final p = ProductModel(
+        id: 'p1',
+        name: 'Smart Watch',
+        price: 100.00,
+        description: 'Fitness tracker',
+        imageUrl: '',
+        category: 'Electronics',
+        rating: 4.7,
+        stock: 10,
+      );
+
+      await cart.addToCart(p, quantity: 1); // Subtotal $100
+
+      // Apply WELCOME50 (50% off up to $50)
+      final err = cart.applyCoupon('WELCOME50');
+      expect(err, isNull);
+      expect(cart.appliedCoupon?.code, 'WELCOME50');
+      expect(cart.discountAmount, closeTo(50.00, 0.001));
+
+      // Taxable amount is 100 - 50 = 50
+      expect(cart.taxableAmount, closeTo(50.00, 0.001));
+      // 18% GST on 50 = 9.00
+      expect(cart.tax, closeTo(9.00, 0.001));
+
+      // Remove coupon
+      cart.removeCoupon();
+      expect(cart.appliedCoupon, isNull);
+      expect(cart.discountAmount, 0.0);
     });
 
     test('Cart quantity updates and removal', () async {

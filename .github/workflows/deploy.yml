@@ -90,28 +90,57 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/master')
         with:
-          tag_name: v1.1.0
-          name: ShopEase v1.1.0 (Developer Bypass & Production Release)
+          tag_name: v2.0.0
+          name: ShopEase v2.0.0 (Enterprise Multi-Role & Developer Bypass Release)
           draft: false
           prerelease: false
+          make_latest: true
           body: |
-            ## ShopEase v1.1.0 Production Release 🎉
+            ## ShopEase v2.0.0 Enterprise Multi-Role Release 🎉
             
-            Welcome to **ShopEase** Flutter E-Commerce mobile application with **Developer Mode Bypass**!
+            Welcome to **ShopEase**, an enterprise-grade Flutter E-Commerce mobile & web application featuring comprehensive multi-role governance (Customer, Seller Hub, Super Admin), full Developer Bypass (PIN: `7266`), and an integrated AI Concierge Assistant!
             
             ### 📱 Download & Install:
-            - **Download Android APK**: [`app-release.apk`](https://github.com/${{ github.repository }}/releases/download/v1.1.0/app-release.apk)
-            - **Google Play Store App Bundle**: [`app-release.aab`](https://github.com/${{ github.repository }}/releases/download/v1.1.0/app-release.aab)
+            - **Download Android Release APK**: [`app-release.apk`](https://github.com/${{ github.repository }}/releases/download/v2.0.0/app-release.apk)
+            - **Google Play Store App Bundle**: [`app-release.aab`](https://github.com/${{ github.repository }}/releases/download/v2.0.0/app-release.aab)
+            - **Web Live Application**: [https://abhishekCode7266.github.io/shopease/](https://abhishekCode7266.github.io/shopease/)
+            - **Live Updates RSS Feed**: [https://abhishekCode7266.github.io/shopease/feed.xml](https://abhishekCode7266.github.io/shopease/feed.xml)
             
-            ### ✨ Included Features:
-            - 🔐 **Developer Mode Bypass (डेवलपर मोड बाईपास)**: Circular settings button & direct PIN 7266 access to inspect all screens without credentials
-            - 🛡️ Firebase Email/Password Authentication & Session Persistence
-            - 📦 Real-time Firestore Product Catalog & Live Cart Synchronization
-            - 🔍 Category Filtering & Instant Search
-            - 🚚 Checkout with Delivery Address Form & Order Management
-            - 💳 Mock Payment Simulator (Cash on Delivery, Fake Card, Fake UPI)
-            - 🌓 Material 3 Dark / Light Mode with SharedPreferences
-            - 🔔 Push Notifications via Firebase Cloud Messaging (FCM)
+            ### ✨ Core Features & Sections:
+            1. **Customer Web & Mobile Experience:**
+               - Hero banners, category tabs, real-time search, price/rating/stock filters & sorting.
+               - Product details with video previews, technical specs comparison, and customer reviews.
+               - Wishlist management and recently viewed history carousel.
+            2. **Cart & Smart Checkout:**
+               - Dynamic quantity controls, 18% GST (CGST 9% + SGST 9%) breakdown.
+               - Coupon & Promo engine (`WELCOME50`, `EASE20`, `FREESHIP`, `FESTIVE10`).
+               - Saved delivery address picker with default address preference.
+            3. **Multi-Payment Gateway Integration:**
+               - UPI Transfers (PhonePe, Google Pay, Paytm, BHIM).
+               - Credit & Debit Cards (Visa, MasterCard, RuPay).
+               - Net Banking (HDFC, SBI, ICICI, Axis, Kotak).
+               - Cash on Delivery (COD) with verification.
+            4. **Live Order Management & Compliance:**
+               - Real-time milestone tracker (Confirmed -> Packed -> Shipped -> Out for Delivery -> Delivered).
+               - BlueDart / Delhivery carrier tracking with AWB numbers.
+               - Official Tax Invoice generation with GSTIN details and PDF download.
+               - Self-service cancellation and 7-day return / refund workflow.
+            5. **Seller Merchant Hub:**
+               - Add / Edit product catalog with live inventory counters.
+               - Order dispatch management and status updates.
+               - Monthly earnings, settlement ledger, and sales export reports.
+            6. **Super Admin Platform Central:**
+               - Platform gross revenue & 20% commission analytics.
+               - Interactive monthly sales progression chart (Jan - Dec).
+               - Merchant KYC & application verification queue.
+               - Customer account moderation & security suspensions.
+               - Platform-wide broadcast notification dispatcher.
+            7. **ShopEase AI Assistant Concierge:**
+               - Contextual shopping recommendations powered by catalog awareness.
+               - Live order tracking assistance and return policy inquiries.
+            8. **Developer Mode Bypass (डेवलपर मोड बाईपास):**
+               - Circular settings icon & PIN `7266` instant authentication.
+               - One-click role switching between Customer, Seller, and Super Admin.
           files: |
             build/app/outputs/flutter-apk/app-release.apk
             build/app/outputs/bundle/release/app-release.aab

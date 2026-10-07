@@ -4,8 +4,15 @@ import '../../providers/auth_provider.dart';
 import '../../providers/theme_provider.dart';
 import '../../services/notification_service.dart';
 import '../../utils/constants.dart';
+import '../../widgets/developer_bypass_sheet.dart';
+import '../admin/admin_dashboard_screen.dart';
+import '../ai/ai_assistant_screen.dart';
 import '../auth/login_screen.dart';
+import '../notifications/notification_center_screen.dart';
 import '../orders/orders_screen.dart';
+import '../seller/seller_dashboard_screen.dart';
+import '../wishlist/wishlist_screen.dart';
+import 'addresses_screen.dart';
 import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -26,6 +33,13 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Account'),
+        actions: [
+          IconButton(
+            tooltip: 'Developer Portal',
+            icon: const Icon(Icons.code, color: Color(0xFF6366F1)),
+            onPressed: () => DeveloperBypassSheet.show(context),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -76,32 +90,23 @@ class ProfileScreen extends StatelessWidget {
                                 ?.withOpacity(0.6),
                           ),
                         ),
-                        if (auth.isDeveloperMode) ...[
-                          const SizedBox(height: 6),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF6366F1).withOpacity(0.12),
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: const Color(0xFF6366F1)),
-                            ),
-                            child: const Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(Icons.verified_rounded, size: 13, color: Color(0xFF6366F1)),
-                                SizedBox(width: 4),
-                                Text(
-                                  'Lead Developer Access',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFF6366F1),
-                                  ),
-                                ),
-                              ],
+                        const SizedBox(height: 6),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 3),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF4F46E5).withOpacity(0.12),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            'ROLE: ${(user?.role ?? "customer").toUpperCase()}',
+                            style: const TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF4F46E5),
                             ),
                           ),
-                        ],
+                        ),
                         const SizedBox(height: 10),
                         InkWell(
                           onTap: () {
@@ -139,8 +144,138 @@ class ProfileScreen extends StatelessWidget {
             ),
             const SizedBox(height: 24),
 
+            // Shopping & Orders Section
+            _buildSectionHeader('Shopping & Orders'),
+            const SizedBox(height: 10),
+
+            Container(
+              decoration: BoxDecoration(
+                color: isDark ? const Color(0xFF1E293B) : Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
+                ),
+              ),
+              child: Column(
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.receipt_long_rounded,
+                        color: Color(0xFF4F46E5)),
+                    title: const Text('My Orders & Live Tracking'),
+                    trailing: const Icon(Icons.chevron_right_rounded),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const OrdersScreen()),
+                      );
+                    },
+                  ),
+                  const Divider(height: 1),
+                  ListTile(
+                    leading: const Icon(Icons.favorite_rounded,
+                        color: Color(0xFFEF4444)),
+                    title: const Text('My Wishlist'),
+                    trailing: const Icon(Icons.chevron_right_rounded),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const WishlistScreen()),
+                      );
+                    },
+                  ),
+                  const Divider(height: 1),
+                  ListTile(
+                    leading: const Icon(Icons.location_on_rounded,
+                        color: Color(0xFF10B981)),
+                    title: const Text('Saved Delivery Addresses'),
+                    trailing: const Icon(Icons.chevron_right_rounded),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const AddressesScreen()),
+                      );
+                    },
+                  ),
+                  const Divider(height: 1),
+                  ListTile(
+                    leading: const Icon(Icons.notifications_rounded,
+                        color: Color(0xFFF59E0B)),
+                    title: const Text('Notification Center'),
+                    trailing: const Icon(Icons.chevron_right_rounded),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (_) => const NotificationCenterScreen()),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
+
+            // Merchant & Platform Portals
+            _buildSectionHeader('Portals & Intelligence'),
+            const SizedBox(height: 10),
+
+            Container(
+              decoration: BoxDecoration(
+                color: isDark ? const Color(0xFF1E293B) : Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
+                ),
+              ),
+              child: Column(
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.auto_awesome,
+                        color: Color(0xFF6366F1)),
+                    title: const Text('ShopEase AI Concierge'),
+                    subtitle: const Text('Interactive AI shopping assistant',
+                        style: TextStyle(fontSize: 12)),
+                    trailing: const Icon(Icons.chevron_right_rounded),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (_) => const AIAssistantScreen()),
+                      );
+                    },
+                  ),
+                  const Divider(height: 1),
+                  ListTile(
+                    leading: const Icon(Icons.storefront_rounded,
+                        color: Color(0xFF059669)),
+                    title: const Text('Seller Merchant Hub'),
+                    subtitle: const Text('Add products, track inventory & payouts',
+                        style: TextStyle(fontSize: 12)),
+                    trailing: const Icon(Icons.chevron_right_rounded),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (_) => const SellerDashboardScreen()),
+                      );
+                    },
+                  ),
+                  const Divider(height: 1),
+                  ListTile(
+                    leading: const Icon(Icons.admin_panel_settings_rounded,
+                        color: Color(0xFFD97706)),
+                    title: const Text('Super Admin Central'),
+                    subtitle: const Text('Analytics, merchant verification & governance',
+                        style: TextStyle(fontSize: 12)),
+                    trailing: const Icon(Icons.chevron_right_rounded),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (_) => const AdminDashboardScreen()),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
+
             // Settings Section
-            _buildSectionHeader('Preferences & Settings'),
+            _buildSectionHeader('Preferences & App Info'),
             const SizedBox(height: 10),
 
             Container(
@@ -195,42 +330,12 @@ class ProfileScreen extends StatelessWidget {
                     trailing: const Icon(Icons.check_circle,
                         color: Color(0xFF10B981), size: 18),
                   ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 24),
-
-            // Account Shortcuts
-            _buildSectionHeader('Orders & Support'),
-            const SizedBox(height: 10),
-
-            Container(
-              decoration: BoxDecoration(
-                color: isDark ? const Color(0xFF1E293B) : Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
-                ),
-              ),
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: const Icon(Icons.receipt_long_rounded),
-                    title: const Text('Order History'),
-                    trailing: const Icon(Icons.chevron_right_rounded),
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => const OrdersScreen(),
-                        ),
-                      );
-                    },
-                  ),
                   const Divider(height: 1),
+
                   ListTile(
                     leading: const Icon(Icons.info_outline_rounded),
                     title: const Text('About & Play Store Release'),
-                    subtitle: const Text('Version 1.0.0 (Production Ready)',
+                    subtitle: const Text('Version 2.0.0 (Production Enterprise)',
                         style: TextStyle(fontSize: 12)),
                     trailing: const Icon(Icons.chevron_right_rounded),
                     onTap: () {

@@ -7,6 +7,7 @@ import '../../utils/constants.dart';
 import '../../utils/validators.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_text_field.dart';
+import '../profile/addresses_screen.dart';
 import 'payment_screen.dart';
 
 class CheckoutScreen extends StatefulWidget {
@@ -25,16 +26,40 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   final _cityController = TextEditingController();
   final _stateController = TextEditingController();
   final _postalCodeController = TextEditingController();
+  final _couponController = TextEditingController();
+
+  ShippingAddress? _chosenSavedAddress;
 
   @override
   void initState() {
     super.initState();
-    final user = context.read<AuthProvider>().user;
-    if (user != null) {
+    final auth = context.read<AuthProvider>();
+    final user = auth.user;
+    final savedAddresses = auth.currentUser?.savedAddresses ?? [];
+
+    if (savedAddresses.isNotEmpty) {
+      final defaultAddr = savedAddresses.firstWhere(
+        (a) => a.isDefault,
+        orElse: () => savedAddresses.first,
+      );
+      _populateFromAddress(defaultAddr);
+    } else if (user != null) {
       _nameController.text = user.name;
       if (user.phoneNumber != null) _phoneController.text = user.phoneNumber!;
       if (user.address != null) _streetController.text = user.address!;
     }
+  }
+
+  void _populateFromAddress(ShippingAddress addr) {
+    setState(() {
+      _chosenSavedAddress = addr;
+      _nameController.text = addr.fullName;
+      _phoneController.text = addr.phone;
+      _streetController.text = addr.street;
+      _cityController.text = addr.city;
+      _stateController.text = addr.state;
+      _postalCodeController.text = addr.postalCode;
+    });
   }
 
   @override
@@ -45,22 +70,28 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     _cityController.dispose();
     _stateController.dispose();
     _postalCodeController.dispose();
+    _couponController.dispose();
     super.dispose();
   }
 
   void _fillSampleAddress() {
-    _nameController.text = 'Alex Johnson';
-    _phoneController.text = '9876543210';
-    _streetController.text = '742 Evergreen Terrace, Apt 4B';
-    _cityController.text = 'San Francisco';
-    _stateController.text = 'California';
-    _postalCodeController.text = '94102';
+    setState(() {
+      _chosenSavedAddress = null;
+      _nameController.text = 'Abhishek Kumar';
+      _phoneController.text = '+91 9876543210';
+      _streetController.text = 'Flat 402, Green Glen Layout, Bellandur';
+      _cityController.text = 'Bengaluru';
+      _stateController.text = 'Karnataka';
+      _postalCodeController.text = '560103';
+    });
   }
 
   void _proceedToPayment() {
     if (!_formKey.currentState!.validate()) return;
 
     final address = ShippingAddress(
+      id: _chosenSavedAddress?.id,
+      label: _chosenSavedAddress?.label ?? 'Delivery',
       fullName: _nameController.text.trim(),
       phone: _phoneController.text.trim(),
       street: _streetController.text.trim(),
@@ -68,6 +99,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       state: _stateController.text.trim(),
       postalCode: _postalCodeController.text.trim(),
     );
+
+    context.read<CartProvider>().setSelectedAddress(address);
 
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -81,6 +114,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final cart = context.watch<CartProvider>();
+    final auth = context.watch<AuthProvider>();
+    final savedAddresses = auth.currentUser?.savedAddresses ?? [];
 
     return Scaffold(
       appBar: AppBar(
@@ -93,6 +128,36 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Free Shipping Progress Banner
+              if (cart.shippingFee > 0 && cart.amountNeededForFreeShipping > 0) ...[
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFEF3C7),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: const Color(0xFFF59E0B).withOpacity(0.4)),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.local_shipping_outlined,
+                          color: Color(0xFFB45309), size: 20),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          'Add ${AppConstants.currencySymbol}${cart.amountNeededForFreeShipping.toStringAsFixed(2)} more to unlock FREE Delivery!',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF92400E),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+              ],
+
               // Shipping Address Header
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -104,10 +169,32 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  TextButton.icon(
-                    onPressed: _fillSampleAddress,
-                    icon: const Icon(Icons.flash_on_rounded, size: 16),
-                    label: const Text('Auto-Fill'),
+                  Row(
+                    children: [
+                      if (savedAddresses.isNotEmpty)
+                        TextButton.icon(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => AddressesScreen(
+                                  selectMode: true,
+                                  onAddressSelected: (selected) {
+                                    _populateFromAddress(selected);
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                          icon: const Icon(Icons.bookmark_outline, size: 16),
+                          label: const Text('Saved'),
+                        ),
+                      TextButton.icon(
+                        onPressed: _fillSampleAddress,
+                        icon: const Icon(Icons.flash_on_rounded, size: 16),
+                        label: const Text('Auto-Fill'),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -125,7 +212,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               CustomTextField(
                 controller: _phoneController,
                 label: 'Mobile Phone Number',
-                hintText: '+1 234 567 8900',
+                hintText: '+91 98765 43210',
                 prefixIcon: Icons.phone_outlined,
                 keyboardType: TextInputType.phone,
                 validator: Validators.validatePhone,
@@ -147,7 +234,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     child: CustomTextField(
                       controller: _cityController,
                       label: 'City',
-                      hintText: 'San Francisco',
+                      hintText: 'Bengaluru',
                       validator: (val) => Validators.validateRequired(val, 'City'),
                     ),
                   ),
@@ -155,8 +242,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   Expanded(
                     child: CustomTextField(
                       controller: _stateController,
-                      label: 'State / Region',
-                      hintText: 'California',
+                      label: 'State',
+                      hintText: 'Karnataka',
                       validator: (val) => Validators.validateRequired(val, 'State'),
                     ),
                   ),
@@ -167,16 +254,137 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               CustomTextField(
                 controller: _postalCodeController,
                 label: 'Postal / PIN Code',
-                hintText: '94102',
+                hintText: '560103',
                 prefixIcon: Icons.markunread_mailbox_outlined,
                 keyboardType: TextInputType.number,
                 validator: Validators.validatePostalCode,
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 24),
+
+              // Coupon & Promo Code Section
+              const Text(
+                'Coupons & Offers',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+
+              Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF8FAFC),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (cart.appliedCoupon != null) ...[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(Icons.check_circle,
+                                  color: Color(0xFF10B981), size: 20),
+                              const SizedBox(width: 8),
+                              Text(
+                                '${cart.appliedCoupon!.code} Applied!',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF10B981),
+                                ),
+                              ),
+                            ],
+                          ),
+                          TextButton(
+                            onPressed: () => cart.removeCoupon(),
+                            child: const Text('Remove',
+                                style: TextStyle(color: Colors.red)),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        'You saved ${AppConstants.currencySymbol}${cart.discountAmount.toStringAsFixed(2)} on this order.',
+                        style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
+                      ),
+                    ] else ...[
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: _couponController,
+                              textCapitalization: TextCapitalization.characters,
+                              decoration: const InputDecoration(
+                                hintText: 'Enter Coupon Code',
+                                isDense: true,
+                                border: OutlineInputBorder(),
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 10),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF4F46E5),
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 12),
+                            ),
+                            onPressed: () {
+                              final err = cart.applyCoupon(_couponController.text);
+                              if (err != null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(err)),
+                                );
+                              } else {
+                                _couponController.clear();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    backgroundColor: Color(0xFF10B981),
+                                    content: Text('Coupon applied successfully!'),
+                                  ),
+                                );
+                              }
+                            },
+                            child: const Text('Apply'),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: ['WELCOME50', 'EASE20', 'FREESHIP', 'FESTIVE10'].map((c) {
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 6),
+                              child: ActionChip(
+                                label: Text(c, style: const TextStyle(fontSize: 11)),
+                                onPressed: () {
+                                  _couponController.text = c;
+                                  final err = cart.applyCoupon(c);
+                                  if (err != null) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text(err)),
+                                    );
+                                  }
+                                },
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
 
               // Order Summary Card
               const Text(
-                'Order Summary',
+                'Price Details',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -224,18 +432,34 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('Subtotal:'),
+                        const Text('Price (Gross Subtotal):'),
                         Text(
                           '${AppConstants.currencySymbol}${cart.subtotal.toStringAsFixed(2)}',
                           style: const TextStyle(fontWeight: FontWeight.w600),
                         ),
                       ],
                     ),
+                    if (cart.discountAmount > 0) ...[
+                      const SizedBox(height: 6),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Coupon Discount (${cart.appliedCoupon?.code}):'),
+                          Text(
+                            '-${AppConstants.currencySymbol}${cart.discountAmount.toStringAsFixed(2)}',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF10B981),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                     const SizedBox(height: 6),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('Tax (8%):'),
+                        const Text('GST (18% - CGST 9% + SGST 9%):'),
                         Text(
                           '${AppConstants.currencySymbol}${cart.tax.toStringAsFixed(2)}',
                           style: const TextStyle(fontWeight: FontWeight.w600),
@@ -246,7 +470,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('Shipping:'),
+                        const Text('Delivery Charges:'),
                         Text(
                           cart.shippingFee == 0
                               ? 'FREE'
@@ -263,7 +487,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
-                          'Total to Pay:',
+                          'Total Amount:',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,

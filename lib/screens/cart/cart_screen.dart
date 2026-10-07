@@ -125,12 +125,38 @@ class CartScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
 
-                        // Estimated Tax
+                        // Coupon Discount if active
+                        if (cart.discountAmount > 0) ...[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Discount (${cart.appliedCoupon?.code})',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF10B981),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                '-${AppConstants.currencySymbol}${cart.discountAmount.toStringAsFixed(2)}',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF10B981),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                        ],
+
+                        // Estimated GST 18%
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Estimated Tax (8%)',
+                              'GST (18% - CGST 9% + SGST 9%)',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: theme.textTheme.bodyMedium?.color
@@ -153,7 +179,7 @@ class CartScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Shipping Fee',
+                              'Delivery Fee',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: theme.textTheme.bodyMedium?.color
