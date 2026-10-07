@@ -8,10 +8,22 @@ class AuthService {
   FirebaseFirestore get _firestore => FirebaseFirestore.instance;
 
   // Stream of Auth changes
-  Stream<User?> get authStateChanges => _auth.authStateChanges();
+  Stream<User?> get authStateChanges {
+    try {
+      return _auth.authStateChanges();
+    } catch (_) {
+      return const Stream<User?>.empty();
+    }
+  }
 
   // Current Firebase User
-  User? get currentUser => _auth.currentUser;
+  User? get currentUser {
+    try {
+      return _auth.currentUser;
+    } catch (_) {
+      return null;
+    }
+  }
 
   // Sign Up with Email and Password
   Future<UserModel> signUp({

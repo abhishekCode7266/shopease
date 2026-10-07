@@ -5,7 +5,7 @@ import '../models/user_model.dart';
 import '../services/auth_service.dart';
 
 class AuthProvider extends ChangeNotifier {
-  final AuthService _authService = AuthService();
+  final AuthService _authService;
 
   UserModel? _user;
   bool _isLoading = false;
@@ -13,7 +13,8 @@ class AuthProvider extends ChangeNotifier {
   String? _errorMessage;
   StreamSubscription<User?>? _authSubscription;
 
-  AuthProvider() {
+  AuthProvider({AuthService? authService})
+      : _authService = authService ?? AuthService() {
     _initAuthListener();
   }
 
@@ -24,21 +25,23 @@ class AuthProvider extends ChangeNotifier {
   String? get errorMessage => _errorMessage;
 
   void _initAuthListener() {
-    _authSubscription = _authService.authStateChanges.listen((firebaseUser) async {
-      if (_isDeveloperMode) return;
-      if (firebaseUser != null) {
-        _user = await _authService.getUserProfile(firebaseUser.uid) ??
-            UserModel(
-              uid: firebaseUser.uid,
-              name: firebaseUser.displayName ?? 'Shopper',
-              email: firebaseUser.email ?? '',
-              createdAt: DateTime.now(),
-            );
-      } else {
-        _user = null;
-      }
-      notifyListeners();
-    });
+    try {
+      _authSubscription = _authService.authStateChanges.listen((firebaseUser) async {
+        if (_isDeveloperMode) return;
+        if (firebaseUser != null) {
+          _user = await _authService.getUserProfile(firebaseUser.uid) ??
+              UserModel(
+                uid: firebaseUser.uid,
+                name: firebaseUser.displayName ?? 'Shopper',
+                email: firebaseUser.email ?? '',
+                createdAt: DateTime.now(),
+              );
+        } else {
+          _user = null;
+        }
+        notifyListeners();
+      }, onError: (_) {});
+    } catch (_) {}
   }
 
   // Developer Bypass Mode (Exclusive access for Abhishek / Developer)
