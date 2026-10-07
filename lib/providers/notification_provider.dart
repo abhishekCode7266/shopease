@@ -13,6 +13,15 @@ class NotificationProvider extends ChangeNotifier {
 
   int get unreadCount => _notifications.where((n) => !n.isRead).length;
 
+  List<NotificationItemModel> getNotificationsByType(String type) {
+    if (type.toLowerCase() == 'all' || type.isEmpty) {
+      return notifications;
+    }
+    return _notifications
+        .where((n) => n.type.toLowerCase() == type.toLowerCase())
+        .toList();
+  }
+
   void markAsRead(String id) {
     final index = _notifications.indexWhere((n) => n.id == id);
     if (index >= 0) {
@@ -28,7 +37,12 @@ class NotificationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addNotification({
+  void addNotification(NotificationItemModel item) {
+    _notifications.insert(0, item);
+    notifyListeners();
+  }
+
+  void addNotificationMessage({
     required String title,
     required String message,
     required String type,
@@ -43,6 +57,11 @@ class NotificationProvider extends ChangeNotifier {
         createdAt: DateTime.now(),
       ),
     );
+    notifyListeners();
+  }
+
+  void removeNotification(String id) {
+    _notifications.removeWhere((n) => n.id == id);
     notifyListeners();
   }
 

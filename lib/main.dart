@@ -79,6 +79,7 @@ class ShopEaseApp extends StatelessWidget {
             provider.updateUser(auth.user?.uid);
             return provider;
           },
+        ),
         ChangeNotifierProvider<NotificationProvider>(
           create: (_) => NotificationProvider(),
         ),

@@ -39,6 +39,15 @@ class ProductProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
 
+  bool get hasActiveFilters =>
+      _selectedCategory != 'All' ||
+      _searchQuery.isNotEmpty ||
+      _sortBy != 'popular' ||
+      _minPrice > 0.0 ||
+      _maxPrice < 300.0 ||
+      _minRating > 0.0 ||
+      _onlyInStock;
+
   List<ProductModel> get comparedProducts => List.unmodifiable(_comparedProducts);
   List<ProductModel> get recentlyViewed => List.unmodifiable(_recentlyViewed);
 
@@ -155,9 +164,24 @@ class ProductProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setOnlyInStock(bool value) {
+    _onlyInStock = value;
+    notifyListeners();
+  }
+
   void toggleOnlyInStock(bool value) {
     _onlyInStock = value;
     notifyListeners();
+  }
+
+  List<ProductModel> searchProducts(String query) {
+    if (query.trim().isEmpty) return _allProducts;
+    final q = query.toLowerCase().trim();
+    return _allProducts.where((p) =>
+      p.name.toLowerCase().contains(q) ||
+      p.description.toLowerCase().contains(q) ||
+      p.category.toLowerCase().contains(q)
+    ).toList();
   }
 
   void resetFilters() {

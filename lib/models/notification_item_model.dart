@@ -6,14 +6,17 @@ class NotificationItemModel {
   final DateTime createdAt;
   bool isRead;
 
+  String get body => message;
+
   NotificationItemModel({
     required this.id,
     required this.title,
-    required this.message,
+    String? message,
+    String? body,
     required this.type,
     required this.createdAt,
     this.isRead = false,
-  });
+  }) : message = (message != null && message.isNotEmpty) ? message : (body ?? '');
 
   Map<String, dynamic> toMap() {
     return {

@@ -470,7 +470,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
           margin: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
-            border: Border.all(
+            side: BorderSide(
               color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
             ),
           ),
@@ -581,7 +581,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
           margin: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
-            border: Border.all(
+            side: BorderSide(
               color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
             ),
           ),
@@ -639,7 +639,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
           margin: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
-            border: Border.all(
+            side: BorderSide(
               color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
             ),
           ),
