@@ -1,5 +1,5 @@
-name: shopease
-description: "ShopEase - A modern, production-ready Flutter E-Commerce mobile application with Firebase backend."
+name: starshop
+description: "StarShop - A modern, production-ready Flutter E-Commerce mobile application with Firebase backend."
 publish_to: "none"
 version: 1.0.0+1
 

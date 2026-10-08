@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shopease/providers/auth_provider.dart';
+import 'package:starshop/providers/auth_provider.dart';
 
 void main() {
   group('AuthProvider Developer Mode Tests', () {
@@ -11,7 +11,7 @@ void main() {
 
       auth.activateDeveloperBypass(
         name: 'Abhishek (Lead Developer)',
-        email: 'abhishekCode7266@shopease.app',
+        email: 'abhishekCode7266@starshop.app',
         uid: 'dev_abhishek_7266',
       );
 
@@ -19,7 +19,7 @@ void main() {
       expect(auth.isAuthenticated, isTrue);
       expect(auth.user?.name, 'Abhishek (Lead Developer)');
       expect(auth.user?.uid, 'dev_abhishek_7266');
-      expect(auth.user?.email, 'abhishekCode7266@shopease.app');
+      expect(auth.user?.email, 'abhishekCode7266@starshop.app');
 
       auth.exitDeveloperMode();
       expect(auth.isDeveloperMode, isFalse);

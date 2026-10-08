@@ -221,8 +221,8 @@ class OrderModel {
         subtotal = subtotal ?? items.fold(0.0, (sum, i) => sum + i.subtotal),
         tax = tax ?? (items.fold(0.0, (sum, i) => sum + i.subtotal) * 0.18), // 18% GST standard
         deliveryCharge = deliveryCharge ?? (total >= 50 ? 0.0 : 5.0),
-        trackingId = trackingId ?? 'SE-TRK-${DateTime.now().millisecondsSinceEpoch.toString().substring(5)}',
-        deliveryPartner = deliveryPartner ?? 'ShopEase Express (BlueDart)',
+        trackingId = trackingId ?? 'STAR-TRK-${DateTime.now().millisecondsSinceEpoch.toString().substring(5)}',
+        deliveryPartner = deliveryPartner ?? 'StarShop Express (BlueDart)',
         estimatedDeliveryDate = estimatedDeliveryDate ?? createdAt.add(const Duration(days: 3)),
         timeline = timeline ?? OrderTimeline(confirmedAt: createdAt);
 

@@ -23,10 +23,10 @@ class NotificationService {
   String? _fcmToken;
   String? get fcmToken => _fcmToken;
 
-  static const String channelId = 'shopease_high_importance_channel';
-  static const String channelName = 'ShopEase Notifications';
+  static const String channelId = 'starshop_high_importance_channel';
+  static const String channelName = 'StarShop Notifications';
   static const String channelDescription =
-      'This channel is used for important ShopEase order and promotional notifications.';
+      'This channel is used for important StarShop order and promotional notifications.';
 
   // Initialize notifications
   Future<void> initialize() async {
@@ -108,7 +108,7 @@ class NotificationService {
 
         if (notification != null && !kIsWeb) {
           showNotification(
-            title: notification.title ?? 'ShopEase Update',
+            title: notification.title ?? 'StarShop Update',
             body: notification.body ?? '',
             payload: message.data.toString(),
           );

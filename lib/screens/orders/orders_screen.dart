@@ -25,7 +25,7 @@ class OrdersScreen extends StatelessWidget {
                   icon: Icons.receipt_long_outlined,
                   title: 'No Orders Yet',
                   subtitle:
-                      'When you place orders on ShopEase, they will appear here with real-time tracking.',
+                      'When you place orders on StarShop, they will appear here with real-time tracking.',
                   buttonText: 'Start Shopping',
                   onButtonPressed: () {
                     Navigator.of(context).pushAndRemoveUntil(

@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shopease/models/cart_item_model.dart';
-import 'package:shopease/models/product_model.dart';
-import 'package:shopease/providers/cart_provider.dart';
+import 'package:starshop/models/cart_item_model.dart';
+import 'package:starshop/models/product_model.dart';
+import 'package:starshop/providers/cart_provider.dart';
 
 void main() {
   group('Cart Calculation Tests', () {

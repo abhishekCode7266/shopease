@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AppConstants {
-  static const String appName = 'ShopEase';
-  static const String appTagline = 'Smart Shopping, Delivered Ease';
+  static const String appName = 'StarShop';
+  static const String appTagline = 'Smart Shopping, Star Quality';
   static const String appVersion = '1.0.0';
 
   // Currency

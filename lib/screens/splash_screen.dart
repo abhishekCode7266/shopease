@@ -102,7 +102,7 @@ class _SplashScreenState extends State<SplashScreen>
                       ],
                     ),
                     child: Icon(
-                      Icons.shopping_bag_rounded,
+                      Icons.stars_rounded,
                       size: 64,
                       color: theme.colorScheme.primary,
                     ),

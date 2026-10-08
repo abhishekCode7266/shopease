@@ -1,11 +1,11 @@
-# ShopEase 🛍️ - Enterprise Multi-Role Flutter E-Commerce Platform
+# StarShop 🛍️ - Enterprise Multi-Role Flutter E-Commerce Platform
 
-[![ShopEase CI/CD](https://github.com/abhishekCode7266/shopease/actions/workflows/deploy.yml/badge.svg)](https://github.com/abhishekCode7266/shopease/actions/workflows/deploy.yml)
-[![Live Web Preview](https://img.shields.io/badge/Web_Preview-Live_on_GitHub_Pages-blue?style=flat&logo=googlechrome)](https://abhishekCode7266.github.io/shopease/)
-[![Release v2.0.0](https://img.shields.io/badge/Release-v2.0.0_Enterprise-green?style=flat&logo=android)](https://github.com/abhishekCode7266/shopease/releases/tag/v2.0.0)
-[![RSS Feed](https://img.shields.io/badge/RSS_Feed-Updates-orange?style=flat&logo=rss)](https://abhishekCode7266.github.io/shopease/feed.xml)
+[![StarShop CI/CD](https://github.com/abhishekCode7266/starshop/actions/workflows/deploy.yml/badge.svg)](https://github.com/abhishekCode7266/starshop/actions/workflows/deploy.yml)
+[![Live Web Preview](https://img.shields.io/badge/Web_Preview-Live_on_GitHub_Pages-blue?style=flat&logo=googlechrome)](https://abhishekCode7266.github.io/starshop/)
+[![Release v2.0.0](https://img.shields.io/badge/Release-v2.0.0_Enterprise-green?style=flat&logo=android)](https://github.com/abhishekCode7266/starshop/releases/tag/v2.0.0)
+[![RSS Feed](https://img.shields.io/badge/RSS_Feed-Updates-orange?style=flat&logo=rss)](https://abhishekCode7266.github.io/starshop/feed.xml)
 
-**ShopEase** is a comprehensive, production-ready, enterprise-grade mobile and web E-Commerce application built with **Flutter (Dart 3+)**, **Material 3**, and **Firebase** (Auth, Cloud Firestore, Cloud Messaging). Designed from the ground up for high reliability, responsiveness, and multi-role operations across **Customer**, **Seller**, and **Super Admin** workflows.
+**StarShop** is a comprehensive, production-ready, enterprise-grade mobile and web E-Commerce application built with **Flutter (Dart 3+)**, **Material 3**, and **Firebase** (Auth, Cloud Firestore, Cloud Messaging). Designed from the ground up for high reliability, responsiveness, and multi-role operations across **Customer**, **Seller**, and **Super Admin** workflows.
 
 ---
 
@@ -13,11 +13,11 @@
 
 | Resource | URL |
 | :--- | :--- |
-| **Live Web App (GitHub Pages)** | [https://abhishekCode7266.github.io/shopease/](https://abhishekCode7266.github.io/shopease/) |
-| **Android Release APK Download** | [Download `app-release.apk`](https://github.com/abhishekCode7266/shopease/releases/download/v2.0.0/app-release.apk) |
-| **Google Play Store App Bundle (AAB)** | [Download `app-release.aab`](https://github.com/abhishekCode7266/shopease/releases/download/v2.0.0/app-release.aab) |
-| **App Updates RSS Feed** | [https://abhishekCode7266.github.io/shopease/feed.xml](https://abhishekCode7266.github.io/shopease/feed.xml) |
-| **GitHub Source Code Repository** | [https://github.com/abhishekCode7266/shopease](https://github.com/abhishekCode7266/shopease) |
+| **Live Web App (GitHub Pages)** | [https://abhishekCode7266.github.io/starshop/](https://abhishekCode7266.github.io/starshop/) |
+| **Android Release APK Download** | [Download `app-release.apk`](https://github.com/abhishekCode7266/starshop/releases/download/v2.0.0/app-release.apk) |
+| **Google Play Store App Bundle (AAB)** | [Download `app-release.aab`](https://github.com/abhishekCode7266/starshop/releases/download/v2.0.0/app-release.aab) |
+| **App Updates RSS Feed** | [https://abhishekCode7266.github.io/starshop/feed.xml](https://abhishekCode7266.github.io/starshop/feed.xml) |
+| **GitHub Source Code Repository** | [https://github.com/abhishekCode7266/starshop](https://github.com/abhishekCode7266/starshop) |
 
 ---
 
@@ -38,7 +38,7 @@ For rapid inspection, testing, and debugging without needing active Firebase ema
 ## 🌟 Comprehensive Architecture & Sections
 
 ### 1. Customer Shopping Experience
-- **Dynamic Homepage**: High-impact promotional banners, vector branding (`ShopEaseLogo`), and category chips.
+- **Dynamic Homepage**: High-impact promotional banners, vector branding (`StarShopLogo`), and category chips.
 - **Search & Filters**: Real-time multi-attribute search with bottom sheet controls for Price Range slider, Minimum Star Rating, In-Stock filter, and Sort criteria (Popularity, Price Low-High, Price High-Low, Discount).
 - **Product Details**: Multi-angle image hero, 4K video preview modal, technical specifications table, verified merchant info, and customer reviews with star ratings.
 - **Side-by-Side Comparison**: Interactive product comparison table across specifications, price, and ratings.
@@ -87,7 +87,7 @@ For rapid inspection, testing, and debugging without needing active Firebase ema
 - **User Moderation**: Customer account oversight with live suspended/blocked toggle.
 - **Platform Broadcasts**: Dispatch platform-wide notifications to all active users.
 
-### 8. ShopEase AI Assistant Concierge
+### 8. StarShop AI Assistant Concierge
 - **Conversational Shopping Assistant**: Built-in chat interface powered by Google DeepMind / Gemini logic.
 - **Catalog Awareness**: Recommends products matching user budget and requirements with direct "View Product" cards.
 - **Order Support**: Automatically fetches user's active orders and provides real-time tracking updates.
@@ -97,7 +97,7 @@ For rapid inspection, testing, and debugging without needing active Firebase ema
 ## 📁 Repository Directory Structure
 
 ```
-shopease/
+starshop/
 ├── .github/workflows/
 │   └── deploy.yml              # CI/CD: Automated Tests, APK, AAB & GitHub Pages
 ├── android/
@@ -173,7 +173,7 @@ shopease/
 │   │   ├── loading_view.dart
 │   │   ├── order_card.dart
 │   │   ├── product_card.dart
-│   │   └── shopease_logo.dart
+│   │   └── star_shop_logo.dart
 │   └── utils/
 │       ├── app_theme.dart
 │       ├── constants.dart
@@ -222,7 +222,7 @@ flutter build apk --release
 flutter build appbundle --release
 
 # Build Web (GitHub Pages release)
-flutter build web --release --base-href "/shopease/"
+flutter build web --release --base-href "/starshop/"
 ```
 
 ---

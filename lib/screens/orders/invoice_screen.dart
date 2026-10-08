@@ -99,7 +99,7 @@ class InvoiceScreen extends StatelessWidget {
                           ),
                           const SizedBox(width: 8),
                           const Text(
-                            'ShopEase',
+                            'StarShop',
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
@@ -110,7 +110,7 @@ class InvoiceScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 6),
                       const Text(
-                        'ShopEase Retail Pvt Ltd\nCIN: U72200KA2024PTC189211\nGSTIN: 29AABCS1429B1Z8\nBengaluru, Karnataka - 560103',
+                        'StarShop Retail Pvt Ltd\nCIN: U72200KA2024PTC189211\nGSTIN: 29AABCS1429B1Z8\nBengaluru, Karnataka - 560103',
                         style: TextStyle(
                           fontSize: 11,
                           color: Color(0xFF64748B),

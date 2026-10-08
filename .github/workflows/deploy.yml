@@ -1,4 +1,4 @@
-name: ShopEase CI/CD - Build APK, Play Store Bundle & Deploy Web
+name: StarShop CI/CD - Build APK, Play Store Bundle & Deploy Web
 
 on:
   push:
@@ -77,13 +77,13 @@ jobs:
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: shopease-release-apk
+          name: starshop-release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
 
       - name: Upload AAB (Play Store) Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: shopease-playstore-aab
+          name: starshop-playstore-aab
           path: build/app/outputs/bundle/release/app-release.aab
 
       - name: Create GitHub Release with APK & AAB
@@ -91,20 +91,20 @@ jobs:
         if: startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/master')
         with:
           tag_name: v2.0.0
-          name: ShopEase v2.0.0 (Enterprise Multi-Role & Developer Bypass Release)
+          name: StarShop v2.0.0 (Enterprise Multi-Role & Developer Bypass Release)
           draft: false
           prerelease: false
           make_latest: true
           body: |
-            ## ShopEase v2.0.0 Enterprise Multi-Role Release 🎉
+            ## StarShop v2.0.0 Enterprise Multi-Role Release 🎉
             
-            Welcome to **ShopEase**, an enterprise-grade Flutter E-Commerce mobile & web application featuring comprehensive multi-role governance (Customer, Seller Hub, Super Admin), full Developer Bypass (PIN: `7266`), and an integrated AI Concierge Assistant!
+            Welcome to **StarShop**, an enterprise-grade Flutter E-Commerce mobile & web application featuring comprehensive multi-role governance (Customer, Seller Hub, Super Admin), full Developer Bypass (PIN: `7266`), and an integrated AI Concierge Assistant!
             
             ### 📱 Download & Install:
             - **Download Android Release APK**: [`app-release.apk`](https://github.com/${{ github.repository }}/releases/download/v2.0.0/app-release.apk)
             - **Google Play Store App Bundle**: [`app-release.aab`](https://github.com/${{ github.repository }}/releases/download/v2.0.0/app-release.aab)
-            - **Web Live Application**: [https://abhishekCode7266.github.io/shopease/](https://abhishekCode7266.github.io/shopease/)
-            - **Live Updates RSS Feed**: [https://abhishekCode7266.github.io/shopease/feed.xml](https://abhishekCode7266.github.io/shopease/feed.xml)
+            - **Web Live Application**: [https://abhishekCode7266.github.io/starshop/](https://abhishekCode7266.github.io/starshop/)
+            - **Live Updates RSS Feed**: [https://abhishekCode7266.github.io/starshop/feed.xml](https://abhishekCode7266.github.io/starshop/feed.xml)
             
             ### ✨ Core Features & Sections:
             1. **Customer Web & Mobile Experience:**
@@ -135,7 +135,7 @@ jobs:
                - Merchant KYC & application verification queue.
                - Customer account moderation & security suspensions.
                - Platform-wide broadcast notification dispatcher.
-            7. **ShopEase AI Assistant Concierge:**
+            7. **StarShop AI Assistant Concierge:**
                - Contextual shopping recommendations powered by catalog awareness.
                - Live order tracking assistance and return policy inquiries.
             8. **Developer Mode Bypass (डेवलपर मोड बाईपास):**

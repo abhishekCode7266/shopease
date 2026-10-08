@@ -171,8 +171,8 @@ class OrderProvider extends ChangeNotifier {
       address: address,
       paymentMethod: paymentMethod,
       status: 'Confirmed',
-      trackingId: 'SE-TRK-${DateTime.now().millisecondsSinceEpoch.toString().substring(5)}',
-      deliveryPartner: 'ShopEase Express (BlueDart)',
+      trackingId: 'STAR-TRK-${DateTime.now().millisecondsSinceEpoch.toString().substring(5)}',
+      deliveryPartner: 'StarShop Express (BlueDart)',
       createdAt: DateTime.now(),
     );
 

@@ -75,7 +75,7 @@ class ProfileScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          user?.name ?? 'ShopEase Shopper',
+                          user?.name ?? 'StarShop Shopper',
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -83,7 +83,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          user?.email ?? 'user@shopease.com',
+                          user?.email ?? 'user@starshop.com',
                           style: TextStyle(
                             fontSize: 13,
                             color: theme.textTheme.bodyMedium?.color
@@ -228,7 +228,7 @@ class ProfileScreen extends StatelessWidget {
                   ListTile(
                     leading: const Icon(Icons.auto_awesome,
                         color: Color(0xFF6366F1)),
-                    title: const Text('ShopEase AI Concierge'),
+                    title: const Text('StarShop AI Concierge'),
                     subtitle: const Text('Interactive AI shopping assistant',
                         style: TextStyle(fontSize: 12)),
                     trailing: const Icon(Icons.chevron_right_rounded),
@@ -344,7 +344,7 @@ class ProfileScreen extends StatelessWidget {
                         applicationName: AppConstants.appName,
                         applicationVersion: AppConstants.appVersion,
                         applicationLegalese:
-                            '© 2026 ShopEase Inc. All rights reserved.\nEngineered for Google Play Store with Material 3 & Firebase.',
+                            '© 2026 StarShop Inc. All rights reserved.\nEngineered for Google Play Store with Material 3 & Firebase.',
                         applicationIcon: Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
@@ -385,7 +385,7 @@ class ProfileScreen extends StatelessWidget {
                   builder: (ctx) => AlertDialog(
                     title: const Text('Confirm Logout'),
                     content: const Text(
-                      'Are you sure you want to log out of your ShopEase account?',
+                      'Are you sure you want to log out of your StarShop account?',
                     ),
                     actions: [
                       TextButton(

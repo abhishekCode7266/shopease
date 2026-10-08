@@ -499,7 +499,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                             color: Color(0xFF10B981)),
                                         SizedBox(width: 4),
                                         Text(
-                                          'ShopEase Assured Merchant  •  4.9 ★ Rating',
+                                          'StarShop Assured Merchant  •  4.9 ★ Rating',
                                           style: TextStyle(
                                               fontSize: 11,
                                               color: Color(0xFF64748B)),

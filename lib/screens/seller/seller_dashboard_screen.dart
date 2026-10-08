@@ -183,7 +183,7 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen>
                       reviewCount: 1,
                       stock: stock,
                       sellerId: auth.currentUser?.id ?? 'seller_101',
-                      sellerName: auth.currentUser?.sellerStoreName ?? 'ShopEase Merchant Hub',
+                      sellerName: auth.currentUser?.sellerStoreName ?? 'StarShop Merchant Hub',
                     );
                     prodProv.addProduct(newProd);
                   } else {
@@ -255,7 +255,7 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  authProv.currentUser?.sellerStoreName ?? 'ShopEase Seller Hub',
+                  authProv.currentUser?.sellerStoreName ?? 'StarShop Seller Hub',
                   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 const Row(
@@ -773,7 +773,7 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen>
             child: Column(
               children: [
                 _buildReportRow('Gross Sales Volume', totalRevenue),
-                _buildReportRow('ShopEase Commission (5%)', -totalRevenue * 0.05,
+                _buildReportRow('StarShop Commission (5%)', -totalRevenue * 0.05,
                     color: Colors.red),
                 _buildReportRow('GST Collected (18%)', totalRevenue * 0.18),
                 const Divider(height: 20),

@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _fillDemoCredentials() {
-    _emailController.text = 'demo.user@shopease.com';
+    _emailController.text = 'demo.user@starshop.com';
     _passwordController.text = 'password123';
   }
 

@@ -11,7 +11,7 @@ import '../../widgets/developer_bypass_sheet.dart';
 import '../../widgets/empty_state_view.dart';
 import '../../widgets/loading_view.dart';
 import '../../widgets/product_card.dart';
-import '../../widgets/shopease_logo.dart';
+import '../../widgets/star_shop_logo.dart';
 import '../admin/admin_dashboard_screen.dart';
 import '../ai/ai_assistant_screen.dart';
 import '../cart/cart_screen.dart';
@@ -255,7 +255,7 @@ class _HomeFeedView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const ShopEaseLogo(size: 28),
+        title: const StarShopLogo(size: 28),
         actions: [
           // Developer Bypass Circular Button
           IconButton(
@@ -275,7 +275,7 @@ class _HomeFeedView extends StatelessWidget {
 
           // AI Concierge Tool
           IconButton(
-            tooltip: 'ShopEase AI Concierge',
+            tooltip: 'StarShop AI Concierge',
             icon: const Icon(Icons.auto_awesome, color: Color(0xFF6366F1)),
             onPressed: () {
               Navigator.push(

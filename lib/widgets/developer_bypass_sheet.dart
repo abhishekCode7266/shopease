@@ -56,7 +56,7 @@ class _DeveloperBypassSheetState extends State<DeveloperBypassSheet> {
           : (_selectedRole == 'seller'
               ? 'Abhishek (Merchant Apex Audio)'
               : 'Abhishek (Lead Developer)'),
-      email: 'abhishekCode7266@shopease.app',
+      email: 'abhishekCode7266@starshop.app',
       uid: 'dev_abhishek_7266',
     );
 

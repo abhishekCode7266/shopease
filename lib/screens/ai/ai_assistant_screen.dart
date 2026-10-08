@@ -48,7 +48,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
     _messages.add(
       AIMessage(
         text:
-            "👋 Hello! I'm your **ShopEase AI Concierge**. How can I assist your shopping journey today? I can help you find products, compare specs, or check your orders.",
+            "👋 Hello! I'm your **StarShop AI Concierge**. How can I assist your shopping journey today? I can help you find products, compare specs, or check your orders.",
         isUser: false,
         timestamp: DateTime.now(),
       ),
@@ -112,7 +112,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
           responseText = "You don't have any placed orders yet. Once you place an order, you can track it step-by-step in real time right here.";
         }
       } else if (lower.contains('return') || lower.contains('refund') || lower.contains('policy')) {
-        responseText = "✨ **ShopEase Hassle-Free Policy:**\n• **7-Day Returns:** All items can be returned within 7 days of delivery.\n• **Instant Refunds:** Pre-paid orders are refunded back to your UPI/Card within 3-5 business days.\n• **Zero Pickup Fee:** We pick up returns directly from your doorstep.";
+        responseText = "✨ **StarShop Hassle-Free Policy:**\n• **7-Day Returns:** All items can be returned within 7 days of delivery.\n• **Instant Refunds:** Pre-paid orders are refunded back to your UPI/Card within 3-5 business days.\n• **Zero Pickup Fee:** We pick up returns directly from your doorstep.";
       } else {
         // Generic search
         final matched = prodProv.searchProducts(query);
@@ -164,7 +164,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
             const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('ShopEase AI Assistant', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                Text('StarShop AI Assistant', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                 Text('Always online • Powered by DeepMind', style: TextStyle(fontSize: 11, color: Color(0xFF10B981))),
               ],
             ),
@@ -217,7 +217,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
                   ),
                   const SizedBox(width: 12),
                   Text(
-                    'ShopEase AI is thinking...',
+                    'StarShop AI is thinking...',
                     style: TextStyle(fontSize: 12, color: theme.hintColor),
                   ),
                 ],

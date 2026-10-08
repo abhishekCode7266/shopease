@@ -41,11 +41,11 @@ void main() async {
     debugPrint('Notification service notice: $e');
   }
 
-  runApp(const ShopEaseApp());
+  runApp(const StarShopApp());
 }
 
-class ShopEaseApp extends StatelessWidget {
-  const ShopEaseApp({super.key});
+class StarShopApp extends StatelessWidget {
+  const StarShopApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -102,3 +102,6 @@ class ShopEaseApp extends StatelessWidget {
     );
   }
 }
+
+/// Backwards compatibility alias
+typedef ShopEaseApp = StarShopApp;

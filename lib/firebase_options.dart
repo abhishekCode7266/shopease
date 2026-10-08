@@ -41,45 +41,45 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDummyWebApiKeyForShopEaseDevMode123456',
+    apiKey: 'AIzaSyDummyWebApiKeyForStarShopDevMode123456',
     appId: '1:109876543210:web:d79c6d05f32b7bb5b97e9e',
     messagingSenderId: '109876543210',
-    projectId: 'shopease-app',
-    authDomain: 'shopease-app.firebaseapp.com',
-    storageBucket: 'shopease-app.appspot.com',
+    projectId: 'starshop-app',
+    authDomain: 'starshop-app.firebaseapp.com',
+    storageBucket: 'starshop-app.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDummyKeyForShopEaseBuildValidation12345',
+    apiKey: 'AIzaSyDummyKeyForStarShopBuildValidation12345',
     appId: '1:109876543210:android:3fa85f64d9f64858b97e9e',
     messagingSenderId: '109876543210',
-    projectId: 'shopease-app',
-    storageBucket: 'shopease-app.appspot.com',
+    projectId: 'starshop-app',
+    storageBucket: 'starshop-app.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDummyKeyForShopEaseBuildValidation12345',
+    apiKey: 'AIzaSyDummyKeyForStarShopBuildValidation12345',
     appId: '1:109876543210:ios:3fa85f64d9f64858b97e9e',
     messagingSenderId: '109876543210',
-    projectId: 'shopease-app',
-    storageBucket: 'shopease-app.appspot.com',
+    projectId: 'starshop-app',
+    storageBucket: 'starshop-app.appspot.com',
     iosBundleId: 'com.shopease.app',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDummyKeyForShopEaseBuildValidation12345',
+    apiKey: 'AIzaSyDummyKeyForStarShopBuildValidation12345',
     appId: '1:109876543210:ios:3fa85f64d9f64858b97e9e',
     messagingSenderId: '109876543210',
-    projectId: 'shopease-app',
-    storageBucket: 'shopease-app.appspot.com',
+    projectId: 'starshop-app',
+    storageBucket: 'starshop-app.appspot.com',
     iosBundleId: 'com.shopease.app',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDummyKeyForShopEaseBuildValidation12345',
+    apiKey: 'AIzaSyDummyKeyForStarShopBuildValidation12345',
     appId: '1:109876543210:web:d79c6d05f32b7bb5b97e9e',
     messagingSenderId: '109876543210',
-    projectId: 'shopease-app',
-    storageBucket: 'shopease-app.appspot.com',
+    projectId: 'starshop-app',
+    storageBucket: 'starshop-app.appspot.com',
   );
 }

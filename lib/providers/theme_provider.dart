@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  static const String _themePrefKey = 'shopease_dark_theme';
+  static const String _themePrefKey = 'starshop_dark_theme';
   ThemeMode _themeMode = ThemeMode.light;
 
   ThemeProvider() {

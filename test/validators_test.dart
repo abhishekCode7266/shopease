@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shopease/utils/validators.dart';
+import 'package:starshop/utils/validators.dart';
 
 void main() {
   group('Validators Unit Tests', () {
@@ -8,7 +8,7 @@ void main() {
       expect(Validators.validateEmail(null), 'Email address is required');
       expect(Validators.validateEmail('invalid-email'), 'Please enter a valid email address');
       expect(Validators.validateEmail('user@domain'), 'Please enter a valid email address');
-      expect(Validators.validateEmail('valid.user@shopease.com'), isNull);
+      expect(Validators.validateEmail('valid.user@starshop.com'), isNull);
       expect(Validators.validateEmail('test_123@sub.domain.co'), isNull);
     });
 

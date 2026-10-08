@@ -116,7 +116,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Enter the email linked to your ShopEase account and we will send you a reset link.',
+                        'Enter the email linked to your StarShop account and we will send you a reset link.',
                         style: TextStyle(
                           fontSize: 14,
                           color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),

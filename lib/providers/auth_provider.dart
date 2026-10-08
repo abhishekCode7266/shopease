@@ -81,16 +81,16 @@ class AuthProvider extends ChangeNotifier {
 
     if (role == 'admin') {
       defaultName = name ?? 'Abhishek (Super Admin)';
-      defaultEmail = email ?? 'admin@shopease.com';
+      defaultEmail = email ?? 'admin@starshop.com';
       defaultUid = uid ?? 'dev_admin_abhishek';
     } else if (role == 'seller') {
       defaultName = name ?? 'Abhishek (Apex Audio Seller)';
-      defaultEmail = email ?? 'seller.apex@shopease.com';
+      defaultEmail = email ?? 'seller.apex@starshop.com';
       defaultUid = uid ?? 'seller_apex_audio';
       storeName = 'Apex Audio Labs Official';
     } else {
       defaultName = name ?? 'Abhishek (Premium Shopper)';
-      defaultEmail = email ?? 'abhishek.shopper@shopease.com';
+      defaultEmail = email ?? 'abhishek.shopper@starshop.com';
       defaultUid = uid ?? 'dev_customer_abhishek';
     }
 

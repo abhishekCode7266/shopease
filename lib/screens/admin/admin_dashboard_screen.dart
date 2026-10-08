@@ -50,7 +50,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Text(
-                      'This notification will be instantly delivered to all active ShopEase mobile & web users.',
+                      'This notification will be instantly delivered to all active StarShop mobile & web users.',
                       style: TextStyle(fontSize: 12, color: Colors.grey),
                     ),
                     const SizedBox(height: 12),

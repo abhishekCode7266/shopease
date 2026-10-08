@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shopease/widgets/custom_button.dart';
-import 'package:shopease/widgets/custom_text_field.dart';
+import 'package:starshop/widgets/custom_button.dart';
+import 'package:starshop/widgets/custom_text_field.dart';
 
 void main() {
   group('Widget Tests', () {
@@ -72,10 +72,10 @@ void main() {
       expect(find.text('Enter your email'), findsOneWidget);
 
       // Enter text
-      await tester.enterText(find.byType(TextFormField), 'test@shopease.com');
+      await tester.enterText(find.byType(TextFormField), 'test@starshop.com');
       await tester.pump();
 
-      expect(controller.text, 'test@shopease.com');
+      expect(controller.text, 'test@starshop.com');
     });
   });
 }
