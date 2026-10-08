@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>ShopEase App Release Updates</title>
-    <link>https://abhishekCode7266.github.io/shopease/</link>
-    <description>Official RSS updates feed for ShopEase Flutter E-Commerce enterprise multi-role application releases and changelogs.</description>
+    <title>StarShop App Release Updates</title>
+    <link>https://abhishekCode7266.github.io/starshop/</link>
+    <description>Official RSS updates feed for StarShop Flutter E-Commerce enterprise multi-role application releases and changelogs.</description>
     <language>en-us</language>
-    <lastBuildDate>Thu, 08 Oct 2026 00:00:00 GMT</lastBuildDate>
-    <atom:link href="https://abhishekCode7266.github.io/shopease/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 08 Oct 2026 05:30:00 GMT</lastBuildDate>
+    <atom:link href="https://abhishekCode7266.github.io/starshop/feed.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>ShopEase v2.0.0 Enterprise Release: Multi-Role Portals, Seller Hub, Admin Central, Order Tracking &amp; AI Assistant</title>
-      <link>https://github.com/abhishekCode7266/shopease/releases/tag/v2.0.0</link>
-      <guid isPermaLink="true">https://github.com/abhishekCode7266/shopease/releases/tag/v2.0.0</guid>
-      <pubDate>Thu, 08 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Major enterprise release introducing Seller Merchant Hub, Super Admin Analytics with monthly revenue charts, step-by-step live Order Tracking, GSTIN Tax Invoices, Coupon Codes (WELCOME50, EASE20, FREESHIP), Indian UPI Payments (PhonePe, GPay, Paytm), Side-by-Side Product Comparison, and ShopEase AI Concierge Assistant.</description>
+      <title>StarShop v2.0.0 Enterprise Release: Multi-Role Portals, Seller Hub, Admin Central, Order Tracking &amp; AI Assistant</title>
+      <link>https://github.com/abhishekCode7266/starshop/releases/tag/v2.0.0</link>
+      <guid isPermaLink="true">https://github.com/abhishekCode7266/starshop/releases/tag/v2.0.0</guid>
+      <pubDate>Thu, 08 Oct 2026 05:30:00 GMT</pubDate>
+      <description>Major enterprise release for StarShop introducing Seller Merchant Hub, Super Admin Analytics with monthly revenue charts, step-by-step live Order Tracking, GSTIN Tax Invoices, Coupon Codes (WELCOME50, EASE20, FREESHIP), Indian UPI Payments (PhonePe, GPay, Paytm), Side-by-Side Product Comparison, and StarShop AI Concierge Assistant.</description>
     </item>
     <item>
-      <title>ShopEase v1.1.0 Released with Developer Mode Bypass &amp; Full Screen Inspection</title>
-      <link>https://github.com/abhishekCode7266/shopease/releases/tag/v1.1.0</link>
-      <guid isPermaLink="true">https://github.com/abhishekCode7266/shopease/releases/tag/v1.1.0</guid>
+      <title>StarShop v1.1.0 Released with Developer Mode Bypass &amp; Full Screen Inspection</title>
+      <link>https://github.com/abhishekCode7266/starshop/releases/tag/v1.1.0</link>
+      <guid isPermaLink="true">https://github.com/abhishekCode7266/starshop/releases/tag/v1.1.0</guid>
       <pubDate>Wed, 07 Oct 2026 07:45:00 GMT</pubDate>
       <description>Added exclusive circular Developer Settings &amp; Bypass button with PIN 7266 authentication, unlocking instant full-access testing across all screens.</description>
     </item>
     <item>
-      <title>ShopEase v1.0.0 Released for Android &amp; Web</title>
-      <link>https://github.com/abhishekCode7266/shopease/releases/tag/v1.0.0</link>
-      <guid isPermaLink="true">https://github.com/abhishekCode7266/shopease/releases/tag/v1.0.0</guid>
+      <title>StarShop v1.0.0 Released for Android &amp; Web</title>
+      <link>https://github.com/abhishekCode7266/starshop/releases/tag/v1.0.0</link>
+      <guid isPermaLink="true">https://github.com/abhishekCode7266/starshop/releases/tag/v1.0.0</guid>
       <pubDate>Wed, 07 Oct 2026 06:00:00 GMT</pubDate>
       <description>Production-ready Android APK and Google Play Store App Bundle (AAB) released with Firebase Auth, Cloud Firestore, Mock Payment, and Material 3 Dark Mode.</description>
     </item>
