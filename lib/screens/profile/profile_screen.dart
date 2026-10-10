@@ -15,6 +15,8 @@ import '../seller/seller_dashboard_screen.dart';
 import '../wishlist/wishlist_screen.dart';
 import 'addresses_screen.dart';
 import 'edit_profile_screen.dart';
+import '../settings/settings_screen.dart';
+import '../wallet/wallet_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -207,6 +209,20 @@ class ProfileScreen extends StatelessWidget {
                       );
                     },
                   ),
+                  const Divider(height: 1),
+                  ListTile(
+                    leading: const Icon(Icons.account_balance_wallet_rounded,
+                        color: Color(0xFF047857)),
+                    title: const Text('StarShop Wallet & Payments'),
+                    subtitle: const Text('Instant refunds, UPI & saved cards',
+                        style: TextStyle(fontSize: 12)),
+                    trailing: const Icon(Icons.chevron_right_rounded),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const WalletScreen()),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
@@ -304,6 +320,27 @@ class ProfileScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
+                  // Settings & Security Hub
+                  ListTile(
+                    leading: const Icon(Icons.settings_suggest_rounded,
+                        color: Color(0xFF4F46E5)),
+                    title: const Text(
+                      'Settings & Security',
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                    subtitle: const Text(
+                      'Biometrics, App Lock PIN, Languages & Preferences',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    trailing: const Icon(Icons.chevron_right_rounded),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const SettingsScreen()),
+                      );
+                    },
+                  ),
+                  const Divider(height: 1),
+
                   // Dark Mode Switch
                   SwitchListTile(
                     secondary: Icon(

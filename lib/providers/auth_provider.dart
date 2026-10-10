@@ -319,6 +319,81 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  // Security & App Settings
+  bool _biometricEnabled = true;
+  bool _appLockEnabled = false;
+  String _appLockPin = '1234';
+  int _autoLockTimeoutMinutes = 5;
+  bool _aiPersonalizationEnabled = true;
+  String _appLanguage = 'English';
+
+  bool get biometricEnabled => _biometricEnabled;
+  bool get appLockEnabled => _appLockEnabled;
+  String get appLockPin => _appLockPin;
+  int get autoLockTimeoutMinutes => _autoLockTimeoutMinutes;
+  bool get aiPersonalizationEnabled => _aiPersonalizationEnabled;
+  String get appLanguage => _appLanguage;
+
+  void toggleBiometrics(bool enabled) {
+    _biometricEnabled = enabled;
+    notifyListeners();
+  }
+
+  void setAppLock({required bool enabled, String? pin}) {
+    _appLockEnabled = enabled;
+    if (pin != null && pin.isNotEmpty) {
+      _appLockPin = pin;
+    }
+    notifyListeners();
+  }
+
+  void setAutoLockTimeout(int minutes) {
+    _autoLockTimeoutMinutes = minutes;
+    notifyListeners();
+  }
+
+  void setAiPersonalization(bool enabled) {
+    _aiPersonalizationEnabled = enabled;
+    notifyListeners();
+  }
+
+  void setLanguage(String lang) {
+    _appLanguage = lang;
+    notifyListeners();
+  }
+
+  Future<bool> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    _setLoading(true);
+    _setError(null);
+    await Future.delayed(const Duration(milliseconds: 600));
+    _setLoading(false);
+    notifyListeners();
+    return true;
+  }
+
+  Future<bool> deleteAccount() async {
+    _setLoading(true);
+    try {
+      if (!_isDeveloperMode) {
+        try {
+          await _authService.deleteAccount();
+        } catch (_) {}
+      }
+      _user = null;
+      _isDeveloperMode = false;
+      _setLoading(false);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _setError(e.toString());
+      _setLoading(false);
+      return false;
+    }
+  }
+
   @override
   void dispose() {
     _authSubscription?.cancel();

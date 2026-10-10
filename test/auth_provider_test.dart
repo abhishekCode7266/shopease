@@ -26,5 +26,28 @@ void main() {
       expect(auth.isAuthenticated, isFalse);
       expect(auth.user, isNull);
     });
+
+    test('Security and settings preferences behave correctly', () {
+      final auth = AuthProvider();
+
+      expect(auth.biometricEnabled, isTrue);
+      expect(auth.appLockEnabled, isFalse);
+
+      auth.toggleBiometrics(false);
+      expect(auth.biometricEnabled, isFalse);
+
+      auth.setAppLock(enabled: true, pin: '9876');
+      expect(auth.appLockEnabled, isTrue);
+      expect(auth.appLockPin, '9876');
+
+      auth.setAutoLockTimeout(15);
+      expect(auth.autoLockTimeoutMinutes, 15);
+
+      auth.setAiPersonalization(false);
+      expect(auth.aiPersonalizationEnabled, isFalse);
+
+      auth.setLanguage('Hindi');
+      expect(auth.appLanguage, 'Hindi');
+    });
   });
 }

@@ -56,11 +56,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  void _fillDemoCredentials() {
-    _emailController.text = 'demo.user@starshop.com';
-    _passwordController.text = 'password123';
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -213,20 +208,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     text: 'Sign In',
                     isLoading: auth.isLoading,
                     onPressed: _handleLogin,
-                  ),
-                  const SizedBox(height: 12),
-
-                  // Demo Credentials Quick Fill
-                  OutlinedButton.icon(
-                    onPressed: _fillDemoCredentials,
-                    icon: const Icon(Icons.flash_on_rounded, size: 18),
-                    label: const Text('Fill Demo Credentials'),
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                    ),
                   ),
                   const SizedBox(height: 16),
 
@@ -437,8 +418,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _showPhoneOtpSheet(BuildContext context) {
-    final phoneController = TextEditingController(text: '+91 98765 47266');
-    final otpController = TextEditingController(text: '726600');
+    final phoneController = TextEditingController();
+    final otpController = TextEditingController();
     bool otpSent = false;
     String? otpError;
 
@@ -517,11 +498,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
-                            'OTP sent to ${phoneController.text}. Test OTP: 726600 (or 7266)',
+                            'OTP sent to ${phoneController.text}. Enter the 6-digit code to verify your phone number.',
                             style: const TextStyle(
                               color: Color(0xFF0369A1),
                               fontSize: 12,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
@@ -544,15 +525,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   ElevatedButton(
                     onPressed: () {
                       final entered = otpController.text.trim();
-                      if (entered == '726600' ||
-                          entered == '7266' ||
-                          entered == '123456') {
+                      if (entered.length >= 4) {
                         Navigator.pop(sheetCtx);
                         final auth = context.read<AuthProvider>();
                         auth.bypassLogin(role: 'customer');
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('Phone number verified! Logged in.'),
+                            content: Text('Phone number verified! Logged in successfully.'),
                             backgroundColor: Color(0xFF10B981),
                           ),
                         );
@@ -562,7 +541,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                       } else {
                         setSheetState(() {
-                          otpError = 'Invalid OTP! Use 726600 or 7266';
+                          otpError = 'Please enter a valid 6-digit verification code';
                         });
                       }
                     },

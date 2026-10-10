@@ -26,6 +26,66 @@ class ProductDetailScreen extends StatefulWidget {
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   int _quantity = 1;
+  String _deliveryPin = '122002';
+  String _deliveryEstimate = 'FREE delivery Tomorrow, 11:00 AM';
+
+  void _checkPinDialog(BuildContext context) {
+    final controller = TextEditingController(text: _deliveryPin);
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text('Check Delivery & Speed'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Enter your 6-digit delivery PIN code:',
+              style: TextStyle(fontSize: 13, color: Colors.grey),
+            ),
+            const SizedBox(height: 10),
+            TextField(
+              controller: controller,
+              keyboardType: TextInputType.number,
+              maxLength: 6,
+              decoration: const InputDecoration(
+                hintText: 'e.g. 110001 or 560001',
+                counterText: '',
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              final pin = controller.text.trim();
+              if (pin.length >= 5) {
+                setState(() {
+                  _deliveryPin = pin;
+                  _deliveryEstimate =
+                      'FREE delivery to $pin Tomorrow, 11:00 AM';
+                });
+                Navigator.pop(ctx);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Delivery available for PIN $pin!'),
+                    backgroundColor: const Color(0xFF10B981),
+                  ),
+                );
+              }
+            },
+            child: const Text('Check'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   void initState() {
@@ -508,6 +568,89 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     ),
                                   ],
                                 ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+
+                        // PIN Code Delivery Estimator
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: isDark
+                                ? const Color(0xFF1E293B)
+                                : const Color(0xFFEEF2FF),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: const Color(0xFF4F46E5).withOpacity(0.3),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.local_shipping_outlined,
+                                  color: Color(0xFF4F46E5), size: 22),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      _deliveryEstimate,
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xFF4F46E5),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      'Delivering to PIN: $_deliveryPin',
+                                      style: const TextStyle(
+                                          fontSize: 11, color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () => _checkPinDialog(context),
+                                child: const Text('Change',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+
+                        // Trust & Service Badges (Amazon/Flipkart style)
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              _buildTrustBadge(
+                                icon: Icons.assignment_return_outlined,
+                                title: product.returnPolicy,
+                                isDark: isDark,
+                              ),
+                              const SizedBox(width: 8),
+                              _buildTrustBadge(
+                                icon: Icons.verified_outlined,
+                                title: product.warranty,
+                                isDark: isDark,
+                              ),
+                              const SizedBox(width: 8),
+                              _buildTrustBadge(
+                                icon: Icons.payments_outlined,
+                                title: 'Cash on Delivery',
+                                isDark: isDark,
+                              ),
+                              const SizedBox(width: 8),
+                              _buildTrustBadge(
+                                icon: Icons.star_border_rounded,
+                                title: 'StarShop Assured',
+                                isDark: isDark,
                               ),
                             ],
                           ),
@@ -1014,6 +1157,37 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildTrustBadge({
+    required IconData icon,
+    required String title,
+    required bool isDark,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      decoration: BoxDecoration(
+        color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF8FAFC),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 16, color: const Color(0xFF4F46E5)),
+          const SizedBox(width: 6),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
