@@ -2,6 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:starshop/providers/delivery_provider.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   group('DeliveryProvider Logistics Tests', () {
     late DeliveryProvider provider;
 

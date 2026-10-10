@@ -4,7 +4,14 @@ import '../models/order_model.dart';
 import '../utils/sample_data.dart';
 
 class DeliveryProvider extends ChangeNotifier {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  FirebaseFirestore? _firestoreInstance;
+  FirebaseFirestore? get _firestore {
+    try {
+      return _firestoreInstance ??= FirebaseFirestore.instance;
+    } catch (_) {
+      return null;
+    }
+  }
 
   bool _isOnline = true;
   String _riderId = 'rider_dev_7266';
@@ -178,7 +185,7 @@ class DeliveryProvider extends ChangeNotifier {
     // Sync to Firestore non-blocking
     try {
       await _firestore
-          .collection('users')
+          ?.collection('users')
           .doc(existing.userId)
           .collection('orders')
           .doc(orderId)
