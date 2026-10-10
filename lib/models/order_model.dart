@@ -193,6 +193,11 @@ class OrderModel {
   final String returnStatus; // 'none', 'requested', 'approved', 'refunded', 'rejected'
   final String? returnReason;
   final double? refundAmount;
+  final String? deliveryPartnerId;
+  final String? deliveryPartnerName;
+  final String? deliveryPartnerPhone;
+  final String deliveryOtp;
+  final String? deliveryNotes;
 
   OrderModel({
     required this.id,
@@ -217,6 +222,11 @@ class OrderModel {
     this.returnStatus = 'none',
     this.returnReason,
     this.refundAmount,
+    this.deliveryPartnerId,
+    this.deliveryPartnerName,
+    this.deliveryPartnerPhone,
+    this.deliveryOtp = '7266',
+    this.deliveryNotes,
   })  : invoiceNumber = invoiceNumber ?? 'INV-${DateTime.now().year}-${id.replaceAll(RegExp(r'[^0-9]'), '').padRight(5, '0').substring(0, 5)}',
         subtotal = subtotal ?? items.fold(0.0, (sum, i) => sum + i.subtotal),
         tax = tax ?? (items.fold(0.0, (sum, i) => sum + i.subtotal) * 0.18), // 18% GST standard
@@ -252,6 +262,11 @@ class OrderModel {
       'returnStatus': returnStatus,
       'returnReason': returnReason,
       'refundAmount': refundAmount,
+      'deliveryPartnerId': deliveryPartnerId,
+      'deliveryPartnerName': deliveryPartnerName,
+      'deliveryPartnerPhone': deliveryPartnerPhone,
+      'deliveryOtp': deliveryOtp,
+      'deliveryNotes': deliveryNotes,
     };
   }
 
@@ -297,6 +312,11 @@ class OrderModel {
       returnStatus: map['returnStatus'] as String? ?? 'none',
       returnReason: map['returnReason'] as String?,
       refundAmount: (map['refundAmount'] as num?)?.toDouble(),
+      deliveryPartnerId: map['deliveryPartnerId'] as String?,
+      deliveryPartnerName: map['deliveryPartnerName'] as String?,
+      deliveryPartnerPhone: map['deliveryPartnerPhone'] as String?,
+      deliveryOtp: map['deliveryOtp'] as String? ?? '7266',
+      deliveryNotes: map['deliveryNotes'] as String?,
     );
   }
 
@@ -328,6 +348,11 @@ class OrderModel {
     String? returnStatus,
     String? returnReason,
     double? refundAmount,
+    String? deliveryPartnerId,
+    String? deliveryPartnerName,
+    String? deliveryPartnerPhone,
+    String? deliveryOtp,
+    String? deliveryNotes,
   }) {
     return OrderModel(
       id: id ?? this.id,
@@ -352,6 +377,11 @@ class OrderModel {
       returnStatus: returnStatus ?? this.returnStatus,
       returnReason: returnReason ?? this.returnReason,
       refundAmount: refundAmount ?? this.refundAmount,
+      deliveryPartnerId: deliveryPartnerId ?? this.deliveryPartnerId,
+      deliveryPartnerName: deliveryPartnerName ?? this.deliveryPartnerName,
+      deliveryPartnerPhone: deliveryPartnerPhone ?? this.deliveryPartnerPhone,
+      deliveryOtp: deliveryOtp ?? this.deliveryOtp,
+      deliveryNotes: deliveryNotes ?? this.deliveryNotes,
     );
   }
 }

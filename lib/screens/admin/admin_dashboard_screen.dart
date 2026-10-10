@@ -23,7 +23,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 6, vsync: this);
   }
 
   @override
@@ -185,6 +185,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
             ),
             const Tab(icon: Icon(Icons.people_outline), text: 'User Moderation'),
             const Tab(icon: Icon(Icons.local_offer_outlined), text: 'Coupons'),
+            const Tab(icon: Icon(Icons.settings_outlined), text: 'Site Settings'),
+            const Tab(icon: Icon(Icons.local_shipping_outlined), text: 'Logistics Fleet'),
           ],
         ),
       ),
@@ -202,6 +204,12 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
 
           // 4. Coupons & Offers Tab
           _buildCouponsTab(theme, isDark),
+
+          // 5. Marketplace Site Settings Tab
+          _buildSiteSettingsTab(theme, isDark),
+
+          // 6. Logistics Fleet Oversight Tab
+          _buildLogisticsFleetTab(theme, isDark),
         ],
       ),
     );
@@ -685,6 +693,214 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
           ),
         );
       },
+    );
+  }
+
+  Widget _buildSiteSettingsTab(ThemeData theme, bool isDark) {
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        Card(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Marketplace Financial Governance',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                const SizedBox(height: 16),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: const Icon(Icons.percent_rounded, color: Color(0xFF4F46E5)),
+                  title: const Text('Platform Commission Fee'),
+                  subtitle: const Text('Deducted automatically from seller payouts'),
+                  trailing: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF4F46E5).withOpacity(0.12),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Text('10.0%', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF4F46E5))),
+                  ),
+                ),
+                const Divider(),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: const Icon(Icons.account_balance_outlined, color: Color(0xFF10B981)),
+                  title: const Text('GST / VAT Tax Rate'),
+                  subtitle: const Text('Calculated at checkout (CGST 9% + SGST 9%)'),
+                  trailing: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF10B981).withOpacity(0.12),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Text('18.0%', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF10B981))),
+                  ),
+                ),
+                const Divider(),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: const Icon(Icons.local_shipping_outlined, color: Color(0xFFF59E0B)),
+                  title: const Text('Free Shipping Order Threshold'),
+                  subtitle: const Text('Orders above this amount receive free delivery'),
+                  trailing: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF59E0B).withOpacity(0.12),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Text('₹499 (or \$50)', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFFF59E0B))),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Card(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Site Security & Maintenance',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                const SizedBox(height: 12),
+                SwitchListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: const Text('AI Content & Review Moderation'),
+                  subtitle: const Text('Auto-quarantine flagged reviews with abusive language'),
+                  value: true,
+                  activeColor: const Color(0xFF10B981),
+                  onChanged: (val) {},
+                ),
+                const Divider(),
+                SwitchListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: const Text('Developer Bypass PIN Mode'),
+                  subtitle: const Text('PIN 7266 developer access active for testing'),
+                  value: true,
+                  activeColor: const Color(0xFF6366F1),
+                  onChanged: (val) {},
+                ),
+                const Divider(),
+                SwitchListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: const Text('Marketplace Maintenance Mode'),
+                  subtitle: const Text('Display scheduled maintenance banner to customers'),
+                  value: false,
+                  activeColor: Colors.red,
+                  onChanged: (val) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Maintenance mode ${val ? "enabled" : "disabled"}')),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLogisticsFleetTab(ThemeData theme, bool isDark) {
+    final riders = [
+      {'name': 'Abhishek StarRider', 'vehicle': 'DL 01 ST 7266', 'rating': 4.9, 'trips': 29, 'status': 'Delivering Order #DELIV-7266-01'},
+      {'name': 'Vikram Singh', 'vehicle': 'HR 26 AB 1042', 'rating': 4.8, 'trips': 142, 'status': 'Available'},
+      {'name': 'Rahul Verma', 'vehicle': 'UP 16 CD 8931', 'rating': 4.7, 'trips': 88, 'status': 'In Transit to Hub'},
+      {'name': 'Deepak Kumar', 'vehicle': 'DL 04 EF 5521', 'rating': 5.0, 'trips': 210, 'status': 'Available'},
+    ];
+
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFF059669), Color(0xFF10B981)],
+            ),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'StarShop Fleet Network',
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              const SizedBox(height: 4),
+              const Text(
+                'Real-time logistics monitoring and delivery partner SLA tracker.',
+                style: TextStyle(color: Colors.white70, fontSize: 12),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: const [
+                  Column(
+                    children: [
+                      Text('18', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)),
+                      Text('Active Riders', style: TextStyle(color: Colors.white70, fontSize: 11)),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text('98.4%', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)),
+                      Text('On-Time SLA', style: TextStyle(color: Colors.white70, fontSize: 11)),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text('24 min', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)),
+                      Text('Avg Drop Time', style: TextStyle(color: Colors.white70, fontSize: 11)),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        const Text(
+          'Active Fleet Riders',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        ),
+        const SizedBox(height: 8),
+        ...riders.map((r) => Card(
+              margin: const EdgeInsets.only(bottom: 10),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              child: ListTile(
+                leading: const CircleAvatar(
+                  backgroundColor: Color(0xFFE6F4EA),
+                  child: Icon(Icons.two_wheeler, color: Color(0xFF059669)),
+                ),
+                title: Text(
+                  r['name'] as String,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                subtitle: Text('Vehicle: ${r['vehicle']} • ★ ${r['rating']} (${r['trips']} trips)\n${r['status']}'),
+                isThreeLine: true,
+                trailing: IconButton(
+                  icon: const Icon(Icons.chat_bubble_outline),
+                  tooltip: 'Contact Rider',
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Connecting to ${r['name']}...')),
+                    );
+                  },
+                ),
+              ),
+            )),
+      ],
     );
   }
 }

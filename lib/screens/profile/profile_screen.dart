@@ -8,6 +8,7 @@ import '../../widgets/developer_bypass_sheet.dart';
 import '../admin/admin_dashboard_screen.dart';
 import '../ai/ai_assistant_screen.dart';
 import '../auth/login_screen.dart';
+import '../delivery/delivery_dashboard_screen.dart';
 import '../notifications/notification_center_screen.dart';
 import '../orders/orders_screen.dart';
 import '../seller/seller_dashboard_screen.dart';
@@ -251,6 +252,21 @@ class ProfileScreen extends StatelessWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                             builder: (_) => const SellerDashboardScreen()),
+                      );
+                    },
+                  ),
+                  const Divider(height: 1),
+                  ListTile(
+                    leading: const Icon(Icons.two_wheeler_rounded,
+                        color: Color(0xFF0284C7)),
+                    title: const Text('Delivery Partner Hub'),
+                    subtitle: const Text('Active rider assignments, OTP verify & earnings',
+                        style: TextStyle(fontSize: 12)),
+                    trailing: const Icon(Icons.chevron_right_rounded),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (_) => const DeliveryDashboardScreen()),
                       );
                     },
                   ),

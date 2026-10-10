@@ -9,7 +9,7 @@ class UserModel {
   final String? photoUrl;
   final String? phoneNumber;
   final String? address;
-  final String role; // 'customer', 'seller', 'admin'
+  final String role; // 'customer', 'seller', 'delivery', 'admin'
   final List<ShippingAddress> savedAddresses;
   final List<String> wishlistProductIds;
   final bool isBlocked;
@@ -17,6 +17,10 @@ class UserModel {
   final String? sellerStoreName;
   final double sellerEarnings;
   final double sellerRating;
+  final String? deliveryVehicleNumber;
+  final double deliveryRating;
+  final int deliveryTripsCompleted;
+  final String deliveryStatus; // 'available', 'on_delivery', 'offline'
 
   UserModel({
     required this.uid,
@@ -34,11 +38,16 @@ class UserModel {
     this.sellerStoreName,
     this.sellerEarnings = 0.0,
     this.sellerRating = 4.8,
+    this.deliveryVehicleNumber,
+    this.deliveryRating = 4.9,
+    this.deliveryTripsCompleted = 0,
+    this.deliveryStatus = 'available',
   });
 
   String get id => uid;
   bool get isCustomer => role == 'customer';
   bool get isSeller => role == 'seller';
+  bool get isDeliveryPartner => role == 'delivery';
   bool get isAdmin => role == 'admin';
 
   ShippingAddress? get defaultAddress {
@@ -67,6 +76,10 @@ class UserModel {
       'sellerStoreName': sellerStoreName,
       'sellerEarnings': sellerEarnings,
       'sellerRating': sellerRating,
+      'deliveryVehicleNumber': deliveryVehicleNumber,
+      'deliveryRating': deliveryRating,
+      'deliveryTripsCompleted': deliveryTripsCompleted,
+      'deliveryStatus': deliveryStatus,
     };
   }
 
@@ -106,6 +119,10 @@ class UserModel {
       sellerStoreName: map['sellerStoreName'] as String?,
       sellerEarnings: (map['sellerEarnings'] as num?)?.toDouble() ?? 0.0,
       sellerRating: (map['sellerRating'] as num?)?.toDouble() ?? 4.8,
+      deliveryVehicleNumber: map['deliveryVehicleNumber'] as String?,
+      deliveryRating: (map['deliveryRating'] as num?)?.toDouble() ?? 4.9,
+      deliveryTripsCompleted: (map['deliveryTripsCompleted'] as num?)?.toInt() ?? 0,
+      deliveryStatus: map['deliveryStatus'] as String? ?? 'available',
     );
   }
 
@@ -130,6 +147,10 @@ class UserModel {
     String? sellerStoreName,
     double? sellerEarnings,
     double? sellerRating,
+    String? deliveryVehicleNumber,
+    double? deliveryRating,
+    int? deliveryTripsCompleted,
+    String? deliveryStatus,
   }) {
     return UserModel(
       uid: uid ?? this.uid,
@@ -147,6 +168,12 @@ class UserModel {
       sellerStoreName: sellerStoreName ?? this.sellerStoreName,
       sellerEarnings: sellerEarnings ?? this.sellerEarnings,
       sellerRating: sellerRating ?? this.sellerRating,
+      deliveryVehicleNumber:
+          deliveryVehicleNumber ?? this.deliveryVehicleNumber,
+      deliveryRating: deliveryRating ?? this.deliveryRating,
+      deliveryTripsCompleted:
+          deliveryTripsCompleted ?? this.deliveryTripsCompleted,
+      deliveryStatus: deliveryStatus ?? this.deliveryStatus,
     );
   }
 }

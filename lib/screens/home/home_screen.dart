@@ -15,6 +15,8 @@ import '../../widgets/star_shop_logo.dart';
 import '../admin/admin_dashboard_screen.dart';
 import '../ai/ai_assistant_screen.dart';
 import '../cart/cart_screen.dart';
+import '../category/categories_screen.dart';
+import '../delivery/delivery_dashboard_screen.dart';
 import '../notifications/notification_center_screen.dart';
 import '../orders/orders_screen.dart';
 import '../product/product_compare_screen.dart';
@@ -36,8 +38,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _pages = const [
     _HomeFeedView(),
+    CategoriesScreen(),
+    WishlistScreen(),
     CartScreen(),
-    OrdersScreen(),
     ProfileScreen(),
   ];
 
@@ -63,6 +66,16 @@ class _HomeScreenState extends State<HomeScreen> {
             selectedIcon: Icon(Icons.storefront_rounded),
             label: 'Shop',
           ),
+          const NavigationDestination(
+            icon: Icon(Icons.category_outlined),
+            selectedIcon: Icon(Icons.category_rounded),
+            label: 'Categories',
+          ),
+          const NavigationDestination(
+            icon: Icon(Icons.favorite_border_rounded),
+            selectedIcon: Icon(Icons.favorite_rounded),
+            label: 'Wishlist',
+          ),
           NavigationDestination(
             icon: Badge(
               isLabelVisible: cart.totalQuantity > 0,
@@ -75,11 +88,6 @@ class _HomeScreenState extends State<HomeScreen> {
               child: const Icon(Icons.shopping_cart_rounded),
             ),
             label: 'Cart',
-          ),
-          const NavigationDestination(
-            icon: Icon(Icons.receipt_long_outlined),
-            selectedIcon: Icon(Icons.receipt_long_rounded),
-            label: 'Orders',
           ),
           const NavigationDestination(
             icon: Icon(Icons.person_outline_rounded),
@@ -396,13 +404,57 @@ class _HomeFeedView extends StatelessWidget {
               ),
             ),
 
-            // Quick Portal Navigation Bar (Admin / Seller / Compare / AI)
+            // Smart Search Autocomplete Hints
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      const Text(
+                        'Suggestions: ',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF64748B),
+                        ),
+                      ),
+                      ...['Headphones', 'Smart Watch', 'Chair', 'Sneakers', 'Lamp', 'Clean Code'].map(
+                        (hint) => Padding(
+                          padding: const EdgeInsets.only(right: 6),
+                          child: ActionChip(
+                            padding: EdgeInsets.zero,
+                            visualDensity: VisualDensity.compact,
+                            label: Text(hint, style: const TextStyle(fontSize: 11)),
+                            onPressed: () => productProv.setSearchQuery(hint),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+            // Quick Portal Navigation Bar (Admin / Seller / Delivery / Compare / AI)
             SliverToBoxAdapter(
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                 child: Row(
                   children: [
+                    _buildPortalChip(
+                      icon: Icons.two_wheeler_rounded,
+                      label: 'Delivery Hub',
+                      color: const Color(0xFF059669),
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const DeliveryDashboardScreen()),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
                     _buildPortalChip(
                       icon: Icons.auto_awesome,
                       label: 'AI Concierge',

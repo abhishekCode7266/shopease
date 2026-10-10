@@ -7,6 +7,7 @@ import 'firebase_options.dart';
 import 'providers/admin_provider.dart';
 import 'providers/auth_provider.dart';
 import 'providers/cart_provider.dart';
+import 'providers/delivery_provider.dart';
 import 'providers/notification_provider.dart';
 import 'providers/order_provider.dart';
 import 'providers/product_provider.dart';
@@ -85,6 +86,9 @@ class StarShopApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<AdminProvider>(
           create: (_) => AdminProvider(),
+        ),
+        ChangeNotifierProvider<DeliveryProvider>(
+          create: (_) => DeliveryProvider(),
         ),
       ],
       child: Consumer<ThemeProvider>(

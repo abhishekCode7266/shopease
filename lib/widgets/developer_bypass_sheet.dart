@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import '../providers/cart_provider.dart';
 import '../providers/product_provider.dart';
+import '../screens/delivery/delivery_dashboard_screen.dart';
 import '../screens/home/home_screen.dart';
 import '../utils/sample_data.dart';
 
@@ -24,7 +25,7 @@ class DeveloperBypassSheet extends StatefulWidget {
 
 class _DeveloperBypassSheetState extends State<DeveloperBypassSheet> {
   final _pinController = TextEditingController(text: '7266');
-  String _selectedRole = 'admin'; // 'admin', 'seller', 'customer'
+  String _selectedRole = 'admin'; // 'admin', 'seller', 'delivery', 'customer'
   bool _preloadDemoCart = true;
   bool _obscurePin = true;
   String? _error;
@@ -55,7 +56,9 @@ class _DeveloperBypassSheetState extends State<DeveloperBypassSheet> {
           ? 'Abhishek (Super Admin)'
           : (_selectedRole == 'seller'
               ? 'Abhishek (Merchant Apex Audio)'
-              : 'Abhishek (Lead Developer)'),
+              : (_selectedRole == 'delivery'
+                  ? 'Abhishek (Delivery Fleet Partner)'
+                  : 'Abhishek (Lead Developer)')),
       email: 'abhishekCode7266@starshop.app',
       uid: 'dev_abhishek_7266',
     );
@@ -78,9 +81,13 @@ class _DeveloperBypassSheetState extends State<DeveloperBypassSheet> {
 
     Navigator.of(context).pop(); // Close bottom sheet
 
-    // Navigate to Home
+    // Navigate to Delivery Dashboard or Home
     Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_) => const HomeScreen()),
+      MaterialPageRoute(
+        builder: (_) => _selectedRole == 'delivery'
+            ? const DeliveryDashboardScreen()
+            : const HomeScreen(),
+      ),
       (route) => false,
     );
 
@@ -200,14 +207,19 @@ class _DeveloperBypassSheetState extends State<DeveloperBypassSheet> {
               style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            Row(
-              children: [
-                _buildRoleChip('admin', 'Super Admin', Icons.admin_panel_settings),
-                const SizedBox(width: 8),
-                _buildRoleChip('seller', 'Seller Hub', Icons.storefront),
-                const SizedBox(width: 8),
-                _buildRoleChip('customer', 'Customer', Icons.shopping_bag_outlined),
-              ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  _buildRoleChip('admin', 'Super Admin', Icons.admin_panel_settings),
+                  const SizedBox(width: 8),
+                  _buildRoleChip('seller', 'Seller Hub', Icons.storefront),
+                  const SizedBox(width: 8),
+                  _buildRoleChip('delivery', 'Delivery Partner', Icons.two_wheeler),
+                  const SizedBox(width: 8),
+                  _buildRoleChip('customer', 'Customer', Icons.shopping_bag_outlined),
+                ],
+              ),
             ),
             const SizedBox(height: 16),
 

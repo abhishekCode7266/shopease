@@ -760,6 +760,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             }).toList(),
                           ),
                         ],
+                        const SizedBox(height: 20),
+                        // Module 11: AI Shopping Recommendations
+                        _buildAiRecommendations(context, product, isDark),
                         const SizedBox(height: 40),
                       ],
                     ),
@@ -843,6 +846,174 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildAiRecommendations(
+      BuildContext context, ProductModel currentProduct, bool isDark) {
+    final allProducts = context.watch<ProductProvider>().products;
+    final similar = allProducts
+        .where((p) => p.id != currentProduct.id && p.category == currentProduct.category)
+        .toList();
+
+    final recommendations = similar.isNotEmpty
+        ? similar
+        : allProducts.where((p) => p.id != currentProduct.id).take(4).toList();
+
+    if (recommendations.isEmpty) return const SizedBox.shrink();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: const [
+            Icon(Icons.auto_awesome, color: Color(0xFF6366F1), size: 20),
+            SizedBox(width: 8),
+            Text(
+              'AI Smart Recommendations',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 4),
+        const Text(
+          'Personalized picks based on this product and shoppers like you',
+          style: TextStyle(fontSize: 12, color: Color(0xFF64748B)),
+        ),
+        const SizedBox(height: 12),
+        SizedBox(
+          height: 180,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: recommendations.length,
+            separatorBuilder: (_, __) => const SizedBox(width: 12),
+            itemBuilder: (context, idx) {
+              final rec = recommendations[idx];
+              return InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => ProductDetailScreen(product: rec),
+                    ),
+                  );
+                },
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  width: 140,
+                  decoration: BoxDecoration(
+                    color: isDark ? const Color(0xFF1E293B) : Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                        child: CachedNetworkImage(
+                          imageUrl: rec.imageUrl,
+                          height: 90,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                          errorWidget: (_, __, ___) => const Icon(Icons.broken_image),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              rec.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              '${AppConstants.currencySymbol}${rec.price.toStringAsFixed(2)}',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF10B981),
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                const Icon(Icons.star_rounded, size: 14, color: Colors.amber),
+                                Text(
+                                  '${rec.rating}',
+                                  style: const TextStyle(fontSize: 10),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        const SizedBox(height: 20),
+        Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: const Color(0xFF6366F1).withOpacity(0.08),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: const Color(0xFF6366F1).withOpacity(0.25)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: const [
+                  Icon(Icons.layers_rounded, color: Color(0xFF6366F1), size: 18),
+                  SizedBox(width: 6),
+                  Text(
+                    'Frequently Bought Together (Save 10%)',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Add ${recommendations.first.name} to this order and receive an automatic bundle discount applied at checkout.',
+                style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
+              ),
+              const SizedBox(height: 10),
+              ElevatedButton.icon(
+                onPressed: () {
+                  final cart = context.read<CartProvider>();
+                  cart.addToCart(currentProduct);
+                  cart.addToCart(recommendations.first);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Bundle added to Cart! 10% Combo Savings Applied.'),
+                      backgroundColor: Color(0xFF10B981),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.add_shopping_cart, size: 16),
+                label: const Text('Add 2 Items to Cart'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF6366F1),
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
