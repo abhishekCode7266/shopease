@@ -7,6 +7,10 @@ class AppTheme {
   static const Color secondaryColor = Color(0xFFF59E0B); // Amber 500
   static const Color accentSuccess = Color(0xFF10B981); // Emerald 500
   static const Color accentError = Color(0xFFEF4444);   // Red 500
+  static const Color primaryOrange = Color(0xFFF97316); // Orange 500
+  static const Color primaryBlue = Color(0xFF2563EB);   // Blue 600
+  static const Color accentGreen = Color(0xFF10B981);   // Emerald 500
+  static const Color textMuted = Color(0xFF64748B);     // Slate 500
 
   // Light Theme
   static ThemeData get lightTheme {
