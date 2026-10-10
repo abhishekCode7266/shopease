@@ -95,6 +95,8 @@ class ProductModel {
 
   bool get isInStock => stock > 0;
   bool get inStock => stock > 0;
+  String get warranty => specs['Warranty'] ?? '1 Year Brand Warranty';
+  String get returnPolicy => specs['Return Policy'] ?? '7 Days Replacement';
 
   Map<String, dynamic> toMap() {
     return {

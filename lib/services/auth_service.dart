@@ -145,6 +145,21 @@ class AuthService {
     }
   }
 
+  // Delete Account
+  Future<void> deleteAccount() async {
+    final user = _auth.currentUser;
+    if (user == null) return;
+    try {
+      await _firestore
+          .collection(AppConstants.collectionUsers)
+          .doc(user.uid)
+          .delete();
+      await user.delete();
+    } catch (e) {
+      throw 'Failed to delete account. You may need to sign in again first.';
+    }
+  }
+
   // Get User Profile from Firestore
   Future<UserModel?> getUserProfile(String uid) async {
     try {

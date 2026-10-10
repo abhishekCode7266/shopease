@@ -353,12 +353,12 @@ class _DeliveryLocationSheetState extends State<DeliveryLocationSheet> {
                 separatorBuilder: (_, __) => const SizedBox(height: 8),
                 itemBuilder: (context, idx) {
                   final addr = addresses[idx];
-                  final isCurrent = widget.currentPinCode == addr.zipCode;
+                  final isCurrent = widget.currentPinCode == addr.postalCode;
 
                   return InkWell(
                     onTap: () {
                       widget.onLocationSelected({
-                        'pin': addr.zipCode,
+                        'pin': addr.postalCode,
                         'name': '${addr.fullName} - ${addr.city}',
                       });
                       Navigator.pop(context);
@@ -421,7 +421,7 @@ class _DeliveryLocationSheetState extends State<DeliveryLocationSheet> {
                                             BorderRadius.circular(6),
                                       ),
                                       child: Text(
-                                        addr.addressType.toUpperCase(),
+                                        addr.label.toUpperCase(),
                                         style: const TextStyle(
                                           fontSize: 9,
                                           fontWeight: FontWeight.bold,
@@ -433,7 +433,7 @@ class _DeliveryLocationSheetState extends State<DeliveryLocationSheet> {
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
-                                  '${addr.streetAddress}, ${addr.city}, ${addr.state} - ${addr.zipCode}',
+                                  '${addr.street}, ${addr.city}, ${addr.state} - ${addr.postalCode}',
                                   style: TextStyle(
                                     fontSize: 12,
                                     color: isDark
@@ -443,7 +443,7 @@ class _DeliveryLocationSheetState extends State<DeliveryLocationSheet> {
                                 ),
                                 const SizedBox(height: 2),
                                 Text(
-                                  'Phone: ${addr.phoneNumber}',
+                                  'Phone: ${addr.phone}',
                                   style: TextStyle(
                                     fontSize: 11,
                                     color: isDark
