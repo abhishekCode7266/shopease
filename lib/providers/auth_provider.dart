@@ -65,9 +65,9 @@ class AuthProvider extends ChangeNotifier {
     } catch (_) {}
   }
 
-  // Developer Bypass Mode with Role Selection (Customer, Seller, Super Admin)
+  // Developer Bypass Mode with Role Selection (Customer, Seller, Delivery, Super Admin)
   void activateDeveloperBypass({
-    String role = 'admin', // 'admin', 'seller', 'customer'
+    String role = 'admin', // 'admin', 'seller', 'delivery', 'customer'
     String? name,
     String? email,
     String? uid,
@@ -88,6 +88,10 @@ class AuthProvider extends ChangeNotifier {
       defaultEmail = email ?? 'seller.apex@starshop.com';
       defaultUid = uid ?? 'seller_apex_audio';
       storeName = 'Apex Audio Labs Official';
+    } else if (role == 'delivery') {
+      defaultName = name ?? 'Abhishek StarRider';
+      defaultEmail = email ?? 'rider.abhishek@starshop.com';
+      defaultUid = uid ?? 'rider_dev_7266';
     } else {
       defaultName = name ?? 'Abhishek (Premium Shopper)';
       defaultEmail = email ?? 'abhishek.shopper@starshop.com';
@@ -108,9 +112,17 @@ class AuthProvider extends ChangeNotifier {
       sellerStoreName: storeName,
       sellerEarnings: 84250.00,
       sellerRating: 4.9,
+      deliveryVehicleNumber: role == 'delivery' ? 'DL 01 ST 7266' : null,
+      deliveryRating: 4.9,
+      deliveryTripsCompleted: role == 'delivery' ? 29 : 0,
+      deliveryStatus: 'available',
     );
     _errorMessage = null;
     notifyListeners();
+  }
+
+  void bypassLogin({String role = 'customer', String? name, String? email}) {
+    activateDeveloperBypass(role: role, name: name, email: email);
   }
 
   void switchRole(String newRole) {
